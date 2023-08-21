@@ -70,6 +70,20 @@ const VariantDiv = () => {
         <hr></hr>
 
         <NavTabs />
+        <div>
+          <div class="mb-3">
+            <p for="exampleFormControlInput1" class="form-label">
+              New Ad Name
+            </p>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Type something here"
+            />
+          </div>
+          <button className="btn btn-primary btn-bg">Launch Test</button>
+        </div>
       </div>
     </div>
   );
