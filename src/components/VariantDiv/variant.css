@@ -1,0 +1,32 @@
+.variant-div > h5{
+    color: #417EF2;
+    text-align: left;
+    font-size: 2.5em;
+    font-weight: 600;
+}
+.variant-div{
+    margin: 4em;
+}
+
+.variant-div >p {
+    text-align: left;
+    color: lightgrey;
+    font-size: 16px;
+}
+
+.variant-select-div{
+    background-color: #f6faff;
+    border-radius: 8px;
+    border: solid 0.5px lightgrey;
+}
+
+
+    
+  .vertical-hr {
+    transform: rotate(90deg);
+    width: 50px;
+   /* Adjust the margin around the vertical line */
+  }
+  
+
+  

@@ -1,0 +1,51 @@
+.nav-pills.nav-justified .nav-link {
+  position: relative;
+  padding-right: 25px; 
+}
+
+.close-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tab-content {
+  border: 1px solid #e0eafd;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 8px;
+  height: 400px;
+  background-color: #fafafa;
+}
+
+.inactive {
+  background-color: #fafafa;
+  border: solid 1px #417EF280;
+}
+
+
+.inactive .fa-circle-xmark {
+  color: #417EF280;
+}
+
+.variation-tab{
+    background-color: white;
+    border: solid 1px #417EF280;
+    border-radius: 8px;
+}
+
+
+.nav-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 0.5rem 1rem; */
+}
+
+/* .nav-link.active {
+  background-color: white; 
+  color: blue; 
+} */
