@@ -63,7 +63,7 @@ const VariantDiv = () => {
           <p>When should we consider this results signifcant?</p>
           <p>
             When you reach
-            <input /> %,certainity, considerthe results statistically
+            <input /> %,certainity, consider the results statistically
             significant
           </p>
         </div>
@@ -71,10 +71,10 @@ const VariantDiv = () => {
 
         <NavTabs />
         <div>
+          <p for="exampleFormControlInput1" class="form-label">
+            New Ad Name
+          </p>
           <div class="mb-3">
-            <p for="exampleFormControlInput1" class="form-label">
-              New Ad Name
-            </p>
             <input
               type="text"
               class="form-control"
