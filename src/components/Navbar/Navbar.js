@@ -1,12 +1,14 @@
 import React from "react";
 import IconImage from "../../assets/Done PNG-02 (1) 1.png";
+import { NavLink } from "react-router-dom";
+import "./navbar.css";
 
 const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg mt-3">
-      <div className="container-fluid ">
+      <div className="container-fluid navbar-top">
         <div className="d-flex align-items-center">
-          <a className="navbar-brand d-flex align-items-center" href="#">
+          <a className="navbar-brand d-flex align-items-center" href>
             <img
               src={IconImage}
               alt="zuck-love-icon"
@@ -15,33 +17,70 @@ const NavBar = () => {
             <p className="mb-0 ms-2">Zuck Love</p>
           </a>
         </div>
-        <div className="navbar-collapse d-flex justify-content-center">
+        <div className="navbar-collapse navbar-links">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <NavLink
+                activeClassName="active-link"
+                to="/product"
+                style={({ isActive }) => ({
+                  fontWeight: isActive ? "bold" : "normal",
+                  color: isActive ? "black" : "grey",
+                  margin: "0.5rem",
+                  textDecoration: 'none'
+                })}
+              >
                 Product
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
+              <NavLink
+                activeClassName="active-link"
+                style={({ isActive }) => ({
+                  fontWeight: isActive ? "bold" : "normal",
+                  color: isActive ? "black" : "grey",
+                  margin: "0.5rem",
+                  textDecoration: 'none'
+                })}
+                to="/"
+              >
                 Copy
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <NavLink
+                activeClassName="active-link"
+                style={({ isActive }) => ({
+                  fontWeight: isActive ? "bold" : "normal",
+                  color: isActive ? "black" : "grey",
+                  margin: "0.5rem",
+                  textDecoration: 'none'
+                })}
+                to="/headlines"
+              >
                 Headlines
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <NavLink
+                activeClassName="active-link"
+                style={({ isActive }) => ({
+                  fontWeight: isActive ? "bold" : "normal",
+                  color: isActive ? "black" : "grey",
+                  margin: "0.5rem",
+                  textDecoration: 'none'
+                })}
+                to="/images"
+              >
                 Images
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
-        <div className="d-flex align-items-center">
+
+        <div className="d-flex align-items-center m-3">
           <form className="d-flex" role="search">
-            <button className="btn btn-primary btn-lg" type="submit">
+            <button className="btn btn-primary" type="submit">
               Log In
             </button>
           </form>

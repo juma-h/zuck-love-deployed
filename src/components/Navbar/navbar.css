@@ -1,0 +1,17 @@
+.navbar-top{
+    /* border: solid brown; */
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar-links{
+    /* border: solid green; */
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.active-link{
+      text-decoration: none;
+
+}
