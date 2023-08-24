@@ -27,7 +27,7 @@ Are you tired of the daunting task of finding the right overseas doctor? Say goo
   ];
   return (
     <div className="row variant-div">
-      <h5>Select Headlines to Test</h5>
+      <h5>Select Copy to Test</h5>
       <p>
         Lorem ipsum dolor sit amet consectetur. Convallis a luctus ultrices
         ipsum. Feugiat pulvinar mi nisl sit suspendisse sed aliquet.
