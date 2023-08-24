@@ -13,7 +13,7 @@ const VideoDiv = () => {
         get started
       </p>
       <p className="video-p2">
-        Get started with copy testing in 2 minutes also <b>Support is available through what’sapp</b>
+        Get started with copy testing in 2 minutes also <b>Support is available through whatsapp</b>
       </p>
       {/* get started , whatsapp  */}
       <div className="video-buttons m-3">
