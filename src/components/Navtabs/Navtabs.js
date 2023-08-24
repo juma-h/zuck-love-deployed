@@ -1,29 +1,13 @@
 import React, { useState } from "react";
 import "./navtabs.css";
+import image from "../../assets/Fab_-_Keak_north_cool_inc 1.png";
 
-const NavTabs = () => {
+const NavTabs = ({ tabs, tabContents }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabClick = (index) => {
     setActiveTab(index);
   };
-
-  const tabs = ["Variation 1 ", "Variation 2", "Variation 3", "Variation 4"];
-
-  const tabContents = [
-    `🚀Transform Your Health Journey Overseas with Ease! 🌍\n
-  Are you tired of the daunting task of finding the right overseas doctor? Say goodbye to the struggle with Turkey's leading gastric sleeve surgery agency! We're more than just an agency; we're your personalized healthcare architects, building you an all-inclusive, custom-tailored medical journey. 💖\n
-  🎯 Here's why we are your top choice:\n
-  ✈️ Enjoy hassle-free round-trip flights\n
-  🏨 Rest and relax in luxury 4-5 star hotels\n
-  👩‍⚕️ Benefit from thorough pre and post-op consultations, designed to empower you with confidence\n
-  🩹 Experience a comprehensive aftercare plan, giving you peace of mind during recovery\n
-  But don't just trust us! 🗣️ Let the testimonies of our numerous satisfied patients speak for our commitment and exceptional service. 🌟\n
-  Ready to redefine your healthcare experience? Simply tap 'Learn More' to commence your seamless, stress-free gastric sleeve surgery journey in Turkey. Your ideal doctor is just one click away! 👆💙`,
-    "This is the content for variation 2.",
-    "This is the content for variation 3.",
-    "This is the content for variation 4.",
-  ];
 
   return (
     <div className="nav-tabs-container">
@@ -34,19 +18,37 @@ const NavTabs = () => {
               className={`nav-link ${
                 activeTab === index ? "active" : "inactive"
               }`}
-              onClick={() => handleTabClick(index)}
+              onClick={(e) => {
+                e.preventDefault();
+                handleTabClick(index);
+              }}
               href
             >
               <span>{tab}</span>
-              <i class="fa-regular fa-circle-xmark fa-2xs close-icon"></i>
+              <i className="fa-regular fa-circle-xmark fa-2xs close-icon"></i>
             </a>
           </li>
         ))}
       </ul>
+      {/* change view according to type of */}
+
       <div className="tab-content-container">
-        <textarea className="tab-content" readOnly>
-          {tabContents[activeTab]}
-        </textarea>
+        {typeof tabContents[activeTab] === "string" &&
+        (tabContents[activeTab].endsWith(".png") ||
+          tabContents[activeTab].endsWith(".jpg") ||
+          tabContents[activeTab].endsWith(".jpeg") ||
+          tabContents[activeTab].endsWith(".gif") ||
+          tabContents[activeTab].endsWith(".svg")) ? (
+          <div className="tab-content">
+            <img src={tabContents[activeTab]} alt=""  style={{width: "90%", height:"90%", padding:"1em"}}/>
+          </div>
+        ) : (
+          <div className="tab-content" style={{ whiteSpace: "pre-line" }}>
+            {typeof tabContents[activeTab] === "string"
+              ? tabContents[activeTab]
+              : ""}
+          </div>
+        )}
       </div>
     </div>
   );
