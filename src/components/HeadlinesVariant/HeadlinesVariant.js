@@ -1,33 +1,22 @@
 import React from "react";
-import "./variant.css";
+import "../VariantDiv/variant.css";
 import NavTabs from "../Navtabs/Navtabs";
-
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import CircleInfo from "../../assets/circle-info.svg";
 
-const VariantDiv = () => {
+const HeadlinesVariant = () => {
 
   const tabs = ["Variation 1 ", "Variation 2", "Variation 3", "Variation 4"];
   const tabContents = [
-    `🚀Transform Your Health Journey Overseas with Ease! 🌍\n
-Are you tired of the daunting task of finding the right overseas doctor? Say goodbye to the struggle with Turkey's leading gastric sleeve surgery agency! We're more than just an agency; we're your personalized healthcare architects, building you an all-inclusive, custom-tailored medical journey. 💖\n
-  
-  🎯 Here's why we are your top choice:
-  ✈️ Enjoy hassle-free round-trip flights
-  🏨 Rest and relax in luxury 4-5 star hotels
-  👩‍⚕️ Benefit from thorough pre and post-op consultations, designed to empower you with confidence
-  🩹 Experience a comprehensive aftercare plan, giving you peace of mind during recovery
-  \n
-  But don't just trust us! 🗣️ Let the testimonies of our numerous satisfied patients speak for our commitment and exceptional service. 🌟
-  Ready to redefine your healthcare experience? Simply tap 'Learn More' to commence your seamless, stress-free gastric sleeve surgery journey in Turkey. Your ideal doctor is just one click away! 👆💙`,
+    `🚀Transform Your Health Journey Overseas with Ease! 🌍`,
     "This is the content for variation 2.",
     "This is the content for variation 3.",
     "This is the content for variation 4.",
   ];
   return (
     <div className="row variant-div">
-      <h5>Select Headlines to Test</h5>
+      <h5>Select Headline to Test</h5>
       <p>
         Lorem ipsum dolor sit amet consectetur. Convallis a luctus ultrices
         ipsum. Feugiat pulvinar mi nisl sit suspendisse sed aliquet.
@@ -83,7 +72,6 @@ Are you tired of the daunting task of finding the right overseas doctor? Say goo
             significance.
           </small>
         </div>
-
 
         {/* percentage div below */}
         <div className="input-label">
@@ -151,4 +139,4 @@ Are you tired of the daunting task of finding the right overseas doctor? Say goo
   );
 };
 
-export default VariantDiv;
+export default HeadlinesVariant;

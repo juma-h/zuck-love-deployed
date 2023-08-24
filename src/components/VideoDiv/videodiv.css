@@ -27,8 +27,11 @@
   align-items: center;
 }
 
-.video-iframe > iframe{
-    border-radius:8px;
-    
-   
+.video-iframe > iframe {
+  border-radius: 8px;
+}
+
+.number-input {
+  color: green;
+  border: solid 3px green;
 }
