@@ -1,17 +1,17 @@
 import React from "react";
-import { Navbar, VideoDiv, VariantDiv } from "../components";
-import "./zucklove.css";
+import { Navbar, VideoDiv } from "../components";
+import "./Copy/copy.css";
+import { Outlet } from "react-router-dom";
 
-function ZuckLove() {
+function Copy() {
   return (
-<div className="container">
-  <div className="curved-background"></div> 
-  <Navbar />
-  <VideoDiv />
-  <VariantDiv />
-</div>
-
+    <div className="container">
+      <div className="curved-background"></div>
+      <Navbar />
+      <VideoDiv />
+      <Outlet />
+    </div>
   );
 }
 
-export default ZuckLove;
+export default Copy;
