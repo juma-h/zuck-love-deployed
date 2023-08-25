@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./login.css";
+import "../Login/login.css";
 import Laptop from "../../assets/laptop png 1.png";
 import ZuckLove from "../../assets/Done PNG-02 (1) 1.png";
 import facebook from "../../assets/image 7.png";
@@ -9,13 +9,14 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const Login = () => {
+
+const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
-  const signUp = ()=>{
-    navigate("/sign-up")
+  const login = ()=>{
+    navigate("/login")
   }
   return (
     <>
@@ -56,8 +57,8 @@ const Login = () => {
           {/* login inputs */}
 
           <div className="col-7 right">
-            <div className="right_inner-cont d-flex flex-column  m-5 p-5">
-              <h5>Sign In</h5>
+            <div className="right_inner-cont d-flex flex-column m-4 p-5">
+              <h5>Sign Up</h5>
               <div className="sign-in-btns">
                 <button className="btn btn-light ">
                   <img src={google} alt="Google Icon" className="log-icon" />
@@ -68,17 +69,13 @@ const Login = () => {
                   Facebook
                 </button>
               </div>
-
-              <h6 className="signin-h2">
-                <span>OR SIGN IN WITH</span>
-              </h6>
               <div className="col-12">
-                <div className="m-3 ">
+                <div className="m-2">
                   <label
                     for="exampleInputEmail1"
                     className="form-label label-signin"
                   >
-                    Username
+                    Create Username
                   </label>
                   <input
                     type="email"
@@ -116,18 +113,43 @@ const Login = () => {
                     </span>
                   </div>
                 </div>
-                <a className="forgot-password" href>
-                  Forgot password?
-                </a>
               </div>
               <div className="col-12">
-                <button className="login-btn">Login</button>
+                <div className="m-3 password-input">
+                  <label
+                    htmlFor="exampleInputPassword1"
+                    className="form-label label-signin"
+                  >
+                    Confirm Password
+                  </label>
+                  <div className="input-with-icon">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="form-control input-signin"
+                      id="exampleInputPassword1"
+                      placeholder="********"
+                    />
+                    <span
+                      className="password-icon"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <i className="far fa-eye-slash"></i>
+                      ) : (
+                        <i className="far fa-eye"></i>
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12">
+                <button className="login-btn">Create Account Now</button>
               </div>
               <h6 className="signin-h2">
-                <span>DON'T HAVE AN ACCOUNT? </span>
+                <span>ALREADY HAVE AN ACCOUNT? LOG IN! </span>
               </h6>
               <div className="col-12">
-                <button className="create-btn" onClick={signUp}>Create Account Now</button>
+                <button className="create-btn" onClick={login}>Login</button>
               </div>
             </div>
           </div>
@@ -137,4 +159,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

@@ -4,3 +4,4 @@ export {default as ImageTest} from "./ImageTest/ImageTest";
 export {default as ZuckLove} from "./ZuckLove";
 export {default as Product} from "./Product/Product";
 export {default as Login} from "./Login/Login";
+export {default as SignUp} from "./SignUp/SignUp"
