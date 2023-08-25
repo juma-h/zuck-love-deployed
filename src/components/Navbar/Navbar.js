@@ -1,9 +1,15 @@
 import React from "react";
 import IconImage from "../../assets/Done PNG-02 (1) 1.png";
-import { NavLink } from "react-router-dom";
+import { NavLink , useNavigate} from "react-router-dom";
 import "./navbar.css";
 
 const NavBar = () => {
+
+  const navigate = useNavigate();
+
+  const handleLogin =()=>{
+    navigate("/login");
+  }
   return (
     <nav className="navbar navbar-expand-lg mt-3">
       <div className="container-fluid navbar-top">
@@ -80,7 +86,7 @@ const NavBar = () => {
 
         <div className="d-flex align-items-center m-3">
           <form className="d-flex" role="search">
-            <button className="btn btn-primary" type="submit">
+            <button className="btn btn-primary" onClick={handleLogin}>
               Log In
             </button>
           </form>
