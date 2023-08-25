@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { ZuckLove, Copy, Headlines, ImageTest , Product} from "./pages";
+import { ZuckLove, Copy, Headlines, ImageTest , Product, Login} from "./pages";
 import "./App.css";
 
 function App() {
@@ -7,6 +7,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+          <Route path="/login" element={<Login/>}/>
           <Route path="/" element={<ZuckLove />}>
             <Route index element={<Copy />} />
             <Route path="/headlines" element={<Headlines />} />
