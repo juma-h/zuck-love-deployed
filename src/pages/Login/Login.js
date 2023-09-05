@@ -6,17 +6,38 @@ import facebook from "../../assets/image 7.png";
 import google from "../../assets/icons8-google-48.png";
 import quote from "../../assets/Vector (1).png";
 import { useNavigate } from "react-router-dom";
-
-
+import  FacebookLogin  from "react-facebook-login";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [login, setLogin] = useState(false);
+  const [data, setData] = useState({});
+  const [picture, setPicture] = useState("");
+  const [accessToken, setAccessToken] = useState("");
 
   const navigate = useNavigate();
 
-  const signUp = ()=>{
-    navigate("/sign-up")
-  }
+  const signUp = () => {
+    navigate("/sign-up");
+  };
+
+  const responseFacebook = (response) => {
+    console.log(response);
+    // Login failed
+    if (response.status === "unknown") {
+      alert("Login failed!");
+      setLogin(false);
+      return false;
+    }
+    setData(response);
+    setPicture(response.picture.data.url);
+    if (response.accessToken) {
+      setLogin(true);
+      setAccessToken(response.accessToken);
+    } else {
+      setLogin(false);
+    }
+  };
   return (
     <>
       <div className="container-fluid login-page">
@@ -36,7 +57,7 @@ const Login = () => {
 
             <div className="bottom row">
               <div className="col-md-6 d-flex justify-content-start">
-                <img src={quote} alt="" className="alt-quote"/>
+                <img src={quote} alt="" className="alt-quote" />
               </div>
               <div className="col-md-6 d-flex justify-content-end">
                 <button className="arrow-btn">
@@ -63,10 +84,19 @@ const Login = () => {
                   <img src={google} alt="Google Icon" className="log-icon" />
                   Google
                 </button>
-                <button className="btn btn-light">
-                  <img src={facebook} alt="Google Icon" className="log-icon" />
-                  Facebook
-                </button>
+                {/* <button className="btn btn-light">
+                  <img src={facebook} alt="Google Icon" className="log-icon" /> */}
+                  <FacebookLogin
+                    appId="2227338407463775"
+                    autoLoad={true}
+                    fields="name,email,picture"
+                    scope="public_profile"
+                    callback={responseFacebook}
+                    cssClass="btn-light"
+                    icon="fa-facebook"
+                  />
+                  {/* Facebook
+                </button> */}
               </div>
 
               <h6 className="signin-h2">
@@ -127,7 +157,9 @@ const Login = () => {
                 <span>DON'T HAVE AN ACCOUNT? </span>
               </h6>
               <div className="col-12">
-                <button className="create-btn" onClick={signUp}>Create Account Now</button>
+                <button className="create-btn" onClick={signUp}>
+                  Create Account Now
+                </button>
               </div>
             </div>
           </div>
