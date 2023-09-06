@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import IconImage from "../../assets/Done PNG-02 (1) 1.png";
 import { NavLink , useNavigate} from "react-router-dom";
 import "./navbar.css";
@@ -6,6 +6,23 @@ import "./navbar.css";
 const NavBar = () => {
 
   const navigate = useNavigate();
+
+  const accessToken = localStorage.getItem('accessToken');
+
+  //navigate to login if no accessToken is seen
+  useEffect(()=>{
+    if(accessToken && accessToken !== null){
+      navigate("/")
+    }else {
+      navigate("login")
+    }
+  },[accessToken])
+
+
+  const handleLogOut = ()=>{
+    navigate("/login")
+    localStorage.clear();
+  }
 
   const handleLogin =()=>{
     navigate("/login");
@@ -86,8 +103,8 @@ const NavBar = () => {
 
         <div className="d-flex align-items-center m-3">
           <form className="d-flex" role="search">
-            <button className="btn btn-primary" onClick={handleLogin}>
-              Log In
+            <button className="btn btn-primary" onClick={accessToken && accessToken !== null? handleLogOut : handleLogin}>
+             {accessToken && accessToken !== null ? "Log Out" : "Log In"}
             </button>
           </form>
         </div>

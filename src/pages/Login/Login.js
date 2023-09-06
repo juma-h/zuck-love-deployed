@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./login.css";
 import Laptop from "../../assets/laptop png 1.png";
 import ZuckLove from "../../assets/Done PNG-02 (1) 1.png";
@@ -6,7 +6,7 @@ import facebook from "../../assets/image 7.png";
 import google from "../../assets/icons8-google-48.png";
 import quote from "../../assets/Vector (1).png";
 import { useNavigate } from "react-router-dom";
-import  FacebookLogin  from "react-facebook-login";
+import FacebookLogin from "react-facebook-login";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +15,7 @@ const Login = () => {
   const [picture, setPicture] = useState("");
   const [accessToken, setAccessToken] = useState("");
 
+
   const navigate = useNavigate();
 
   const signUp = () => {
@@ -22,7 +23,7 @@ const Login = () => {
   };
 
   const responseFacebook = (response) => {
-    console.log(response);
+    console.log("response", response);
     // Login failed
     if (response.status === "unknown") {
       alert("Login failed!");
@@ -34,10 +35,16 @@ const Login = () => {
     if (response.accessToken) {
       setLogin(true);
       setAccessToken(response.accessToken);
+
+      localStorage.setItem("accessToken", response.accessToken);
+      navigate("/");
     } else {
       setLogin(false);
     }
   };
+
+
+
   return (
     <>
       <div className="container-fluid login-page">
@@ -86,16 +93,26 @@ const Login = () => {
                 </button>
                 {/* <button className="btn btn-light">
                   <img src={facebook} alt="Google Icon" className="log-icon" /> */}
-                  <FacebookLogin
-                    appId="2227338407463775"
-                    autoLoad={true}
-                    fields="name,email,picture"
-                    scope="public_profile"
-                    callback={responseFacebook}
-                    cssClass="btn-light"
-                    icon="fa-facebook"
-                  />
-                  {/* Facebook
+                <FacebookLogin
+                  // style={{
+                  //   padding: "1em",
+                  //   borderRadius: "12px",
+                  //   fontWeight: 500,
+                  //   color: "black",
+                  //   backgroundColor: "white",
+                  //   border: "solid 0.5px lightgrey",
+                  //   margin: "5px",
+                  // }}
+                   appId="2227338407463775"
+                  // appId="665769488359790"
+                  autoLoad={true}
+                  fields="name,email,picture"
+                  scope="public_profile"
+                  callback={responseFacebook}
+                  icon="fa-facebook"
+                />
+
+                {/* Facebook
                 </button> */}
               </div>
 

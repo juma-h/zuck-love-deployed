@@ -11,36 +11,34 @@
   display: grid;
   grid-template-rows: 10% 50% 30%;
   gap: 2em;
-  padding:1em;
+  padding: 1em;
 }
 .top {
   grid-row: 1 / span 1;
   color: #ffffff;
-  padding:1em;
+  padding: 1em;
   margin-top: 10px;
   /* border: solid yellow; */
 }
 
-.top> p{
-    font-size: 14px;
+.top > p {
+  font-size: 14px;
 }
 
-.logo-left > span{
-    font-weight: 500;
-    font-size: 20px;
+.logo-left > span {
+  font-weight: 500;
+  font-size: 20px;
 }
 
-.logo-left > img{
-    width: 100px;
-    height: 100px;
+.logo-left > img {
+  width: 100px;
+  height: 100px;
 }
-
 
 .bottom {
   grid-row: 3 / span 1;
   /* border: solid red; */
-  padding:1em;
-
+  padding: 1em;
 }
 .text-quote {
   color: #fff;
@@ -48,7 +46,6 @@
   font-weight: 500;
   text-align: left;
 }
-
 
 .right {
   height: 100vh;
@@ -59,7 +56,7 @@
   background-image: url("../../assets/Vector.png");
   background-repeat: no-repeat;
   background-position: center;
-    background-size: 500px;
+  background-size: 500px;
   /* border: solid pink; */
 
   position: relative;
@@ -75,23 +72,21 @@
 }
 
 .alt-quote {
-    width: 50px;
-    height: 50px;
-    margin: 1ch;
+  width: 50px;
+  height: 50px;
+  margin: 1ch;
 }
-.arrow-btn{
-    border-radius: 50%;
-    background: none;
-    border: solid 1px white;
-    width: 30px;
-    height: 30px;
-    margin: 1ch;
-
+.arrow-btn {
+  border-radius: 50%;
+  background: none;
+  border: solid 1px white;
+  width: 30px;
+  height: 30px;
+  margin: 1ch;
 }
-.arrow-btn > i{
-    color: white;
+.arrow-btn > i {
+  color: white;
 }
-
 
 /* right side */
 
@@ -116,6 +111,17 @@
   background-color: white;
   border: solid 0.5px lightgrey;
   margin: 5px;
+}
+
+.facebook-login-button{
+  padding: 1em;
+  border-radius: 12px;
+  font-weight: 500;
+  color: black;
+  background-color: white;
+  border: solid 0.5px lightgrey;
+  margin: 5px;
+
 }
 
 .log-icon {
@@ -154,7 +160,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
 }
 
 .input-with-icon {
@@ -162,14 +167,13 @@
   align-items: center;
   position: relative;
   width: 100%;
-
 }
 
 .password-icon {
   position: absolute;
   right: 10px;
-  top: 50%; 
-  transform: translateY(-50%); 
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
 }
 
@@ -182,13 +186,13 @@
   color: #333;
 }
 
-.forgot-password{
-    text-decoration: none;
-    /* border: solid blue; */
-    float: right;
-    color:#aaa;
-    cursor: pointer;
-    font-size: 14px;
+.forgot-password {
+  text-decoration: none;
+  /* border: solid blue; */
+  float: right;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .login-btn {
