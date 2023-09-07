@@ -12,6 +12,8 @@ import "./App.css";
 import { useState, useEffect } from "react";
 
 function App() {
+
+
   const fbAccessToken = localStorage.getItem("accessToken");
   console.log("accessToken", fbAccessToken);
 
@@ -22,6 +24,8 @@ function App() {
     "pGBkfeGYuF7W4Z2C73FH8dRyFnPuIowdJptruKV6VpBH79oaVRrGdIWXEWWmbyMGFB5mWHnTpIzrDhZSgJq2obrc1GVKuRZE6WOregecNXlUR6xLOsD1ejFSw6HVWOPV"
   );
 
+
+  //get the auth token
   useEffect(() => {
     if (
       fbAccessToken &&
@@ -59,7 +63,7 @@ function App() {
       })
         .then(({result, status}) => {
           console.log("result", result)
-          console.log("status", status)
+          // console.log("status", status)
           if(status === 200){
             localStorage.setItem("bearer_token", result.access_token);
             // console.log("accessToken for zuck", result.access_token)
