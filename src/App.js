@@ -15,7 +15,7 @@ function App() {
 
 
   const fbAccessToken = localStorage.getItem("accessToken");
-  console.log("accessToken", fbAccessToken);
+  // console.log("accessToken", fbAccessToken);
 
   const [clientId, setClientId] = useState(
     "xDtdNsu7yFQ6QKuRyToKsMgbjZkxo2Xn8qLX1LMF"
@@ -52,7 +52,7 @@ function App() {
       };
 
       console.log("getting the token after");
-      console.log("raw body", urlencoded);
+      // console.log("raw body", urlencoded);
 
       fetch("/auth/convert-token/", requestOptions)
       .then((response) => {
@@ -62,10 +62,11 @@ function App() {
         });
       })
         .then(({result, status}) => {
-          console.log("result", result)
+          // console.log("result", result)
           // console.log("status", status)
           if(status === 200){
             localStorage.setItem("bearer_token", result.access_token);
+            localStorage.setItem("account_id", "896631874812550")
             // console.log("accessToken for zuck", result.access_token)
           }else {
             localStorage.setItem("bearer_token", null);
@@ -73,7 +74,7 @@ function App() {
         })
         .catch((error) => {console.log("error", error)});
     }
-  }, [fbAccessToken]);
+  }, [fbAccessToken, clientId, clientSecret]);
 
   return (
     <Router>

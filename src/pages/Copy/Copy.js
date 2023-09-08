@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { VariantDiv, NavTabs } from "../../components";
 import { extractNumbersFromString } from "../../utils/utils";
+import { toast } from "react-toastify";
 import "./copy.css";
 
 function Copy() {
-  const account_id = "896631874812550";
+  //encrypt local storage items
+  const account_id = localStorage.getItem("account_id");
   const token = localStorage.getItem("bearer_token");
+
+  // useStates
   const [campaignData, setCampaignData] = useState([]);
   const [selectedCampaign, setSelectedCampaign] = useState("");
   const [selectedAdset, setSelectAdset] = useState("");
@@ -14,19 +18,21 @@ function Copy() {
   const [adData, setAdData] = useState([]);
   const [metricData, setMetricData] = useState([]);
   const [selectedMetric, setSelectedMetric] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   const [adcreativeId, setAdCreativeId] = useState("");
-   const [tabContents, setTabContents] = useState("");
-
-
   const [activeTab, setActiveTab] = useState();
-
-
+  const [adName, setAdName] = useState("");
+  const [isClicked, setIsClicked] = useState(false);
 
   const tabs = ["Variation 1", "Variation 2", "Variation 3", "Variation 4"];
+  const [tabContents, setTabContents] = useState(
+    tabs.map((tab) => ({ title: tab, content: "" }))
+  );
+
+  // Cache to store fetched data for each tab
+  const [dataCache, setDataCache] = useState(Array(tabs.length).fill(null));
 
   // onchange functions
-
   const handleSelectCampaign = (e) => {
     const newValue = extractNumbersFromString(e.target.value);
     setSelectedCampaign(newValue);
@@ -46,8 +52,11 @@ function Copy() {
 
   const handleSelectMetric = (e) => {
     const value = e.target.value;
-    const newValue = extractNumbersFromString(value);
-    setSelectedMetric(newValue);
+    setSelectedMetric(value);
+  };
+
+  const handleAdName = (e) => {
+    setAdName(e.target.value);
   };
 
   //get campaigns for user
@@ -80,10 +89,10 @@ function Copy() {
   // get adset
   useEffect(() => {
     if (selectedCampaign && selectedCampaign !== null) {
-      var myHeaders = new Headers();
+      let myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
 
-      var requestOptions = {
+      let requestOptions = {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
@@ -110,10 +119,10 @@ function Copy() {
   // get ad
   useEffect(() => {
     if (selectedAdset && selectedAdset !== null) {
-      var myHeaders = new Headers();
+      let myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
 
-      var requestOptions = {
+      let requestOptions = {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
@@ -145,10 +154,10 @@ function Copy() {
 
   //get metrics
   useEffect(() => {
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
 
-    var requestOptions = {
+    let requestOptions = {
       method: "GET",
       headers: myHeaders,
       redirect: "follow",
@@ -162,56 +171,126 @@ function Copy() {
         });
       })
       .then(({ result, status }) => {
-        console.log(result);
-        if (status === 200 && result.length > 0) setMetricData(result);
+        // console.log(result);
+        if (status === 200 && result.length > 0) {
+          console.log("metrics::", result);
+          setMetricData(result);
+        }
       })
       .catch((error) => console.log("error", error));
   }, [token]);
 
+  const clearFields = ()=>{
+    setSelectedAd("")
+    setSelectAdset("")
+    setSelectedCampaign("")
+    setSelectedMetric("")
+    setAdName("")
+  }
+
   //get variations
   const getVariations = (index) => {
+    if (dataCache[index] === null) {
+      // Data is not cached, fetch it
+      setIsLoading(true);
+      setActiveTab(index);
 
-    setTabContents("")
-    console.log("variation index", index)
-    // setActiveTab(index);
-    setActiveTab(index); 
+      let myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Authorization", `Bearer ${token}`);
 
+      let raw = JSON.stringify({
+        ad_creative_id: adcreativeId,
+      });
 
-    var myHeaders = new Headers();
+      let requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch("/abtesting/new-ad-content/", requestOptions)
+        .then((response) => {
+          const status = response.status;
+          return response.json().then((result) => {
+            return { status, result };
+          });
+        })
+        .then(({ result, status }) => {
+          setIsLoading(false);
+          if (status === 200 && result !== null) {
+            // Update the cache with the fetched data
+            const newDataCache = [...dataCache];
+            newDataCache[index] = result;
+            setDataCache(newDataCache);
+
+            // Update the content for the active tab
+            const newTabContents = [...tabContents];
+            newTabContents[index] = result;
+            setTabContents(newTabContents);
+          }
+        })
+        .catch((error) => console.log("error", error));
+    } else {
+      // Data is already cached, use it
+      setActiveTab(index);
+    }
+  };
+
+  const handleTabClick = (index) => {
+    getVariations(index);
+  };
+
+  // Launch New Test Fn
+  const launchTestFunction = (e) => {
+    e.preventDefault();
+
+    setIsClicked(true);
+
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer tGxGlTKlplrV2d08zVqs8Ab2Fl88xi");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
-    var raw = JSON.stringify({
+    let raw = JSON.stringify({
       ad_creative_id: adcreativeId,
+      ad_name: adName,
+      new_ads_content: tabContents[activeTab],
+      metric_to_optimize: selectedMetric,
     });
 
-    var requestOptions = {
+    let requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
       redirect: "follow",
     };
 
-    fetch("/abtesting/new-ad-content/", requestOptions)
-    .then((response) => {
-      const status = response.status;
-      return response.json().then((result) => {
-        return { status, result };
-      });
-    })
-      .then(({result, status}) => {
-        console.log(result)
-        if(status === 200 && result !== null){
-           setTabContents(result)
+    console.log("post body::", raw);
+
+    fetch(`/abtesting/ad-ab-test/?account_id=${account_id}`, requestOptions)
+      .then((response) => {
+        const status = response.status;
+        if (response.ok) {
+          return { status };
+        } else {
+          throw new Error(`Request failed with status: ${status}`);
         }
       })
-      .catch((error) => console.log("error", error));
+      .then(({ status }) => {
+        setIsClicked(false);
+        if (status === 200) {
+          toast.success("Test Created successfully");
+          clearFields(); //clear fields on success
+        } else {
+          toast.warning(`Request failed with status: ${status}`);
+        }
+      })
+      .catch((error) => {
+        console.error("error", error);
+        toast.error("An error occurred while processing the request.");
+      });
   };
-
-  const handleTabClick = (index) => {
-    getVariations(index); 
-  };
-  
 
   return (
     <>
@@ -261,17 +340,23 @@ function Copy() {
           metricData.length > 0 &&
           metricData.map((metric) => (
             <>
-              <option key={metric.id} value={metric.name + " - " + metric.id}>
+              <option key={metric.id} value={metric.field_name}>
                 {metric.name}
               </option>
             </>
           ))
         }
         tabs={tabs}
-        tabContents={tabContents}
+        // tabContents={tabContents}
         handleTabClick={handleTabClick}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        tabContents={tabContents[activeTab] || ""}
+        isLoading={isLoading}
+        adName={adName}
+        adNameFn={handleAdName}
+        isClicked={isClicked}
+        launchTestFn={launchTestFunction}
       />
     </>
   );

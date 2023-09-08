@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import IconImage from "../../assets/Done PNG-02 (1) 1.png";
 import { NavLink , useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 import "./navbar.css";
 
 const NavBar = () => {
@@ -12,9 +13,9 @@ const NavBar = () => {
   //navigate to login if no accessToken is seen
   useEffect(()=>{
     if(accessToken && accessToken !== null){
-      navigate("/")
+      navigate("/");   
     }else {
-      navigate("login")
+      navigate("/login")
     }
   },[accessToken])
 
@@ -22,6 +23,7 @@ const NavBar = () => {
   const handleLogOut = ()=>{
     navigate("/login")
     localStorage.clear();
+    toast.success("User logged out!")
   }
 
   const handleLogin =()=>{

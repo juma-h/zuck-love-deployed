@@ -19,6 +19,11 @@ const VariantDiv = ({
   tabContents,
   handleTabClick,
   activeTab,
+  isLoading,
+  launchTestFn,
+  adName,
+  adNameFn,
+  isClicked,
 }) => {
   return (
     <div className="row variant-div">
@@ -141,6 +146,7 @@ const VariantDiv = ({
           tabContents={tabContents}
           handleTabClick={handleTabClick}
           activeTab={activeTab}
+          isLoading={isLoading}
         />
 
         <div className="mt-5">
@@ -151,10 +157,16 @@ const VariantDiv = ({
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Type something here"
+              value={adName}
+              onChange={adNameFn}
             />
           </div>
-          <button className="btn btn-primary btn-bg launch-btn">
-            Launch Test
+          <button
+            className="btn btn-primary btn-bg launch-btn"
+            onClick={launchTestFn}
+            disabled={adName === ""}
+          >
+            {isClicked ? "Launching test ..." : "Launch Test"}
           </button>
         </div>
       </div>

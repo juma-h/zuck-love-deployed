@@ -65,4 +65,20 @@
 
 }
 
+.loading-container {
+  display: flex;
+  border: 2px solid #d7e3fa;
+  padding: 20px;
+  margin-top:1em;
+  border-radius: 8px;
+  height: 500px;
+  width: 100%;
+  background-color: #fafafa;
+  /* border: solid green; */
+  justify-content: center; 
+  align-items: center; 
+ 
+}
+
+
 
