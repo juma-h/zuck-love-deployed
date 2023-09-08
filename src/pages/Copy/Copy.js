@@ -248,59 +248,59 @@ function Copy() {
   };
 
   // Launch New Test Fn
-  // const launchTestFunction = (e) => {
-  //   e.preventDefault();
+  const launchTestFunction = (e) => {
+    e.preventDefault();
 
-  //   setIsClicked(true);
+    setIsClicked(true);
 
-  //   let myHeaders = new Headers();
-  //   myHeaders.append("Content-Type", "application/json");
-  //   myHeaders.append("Authorization", `Bearer ${token}`);
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
-  //   let raw = JSON.stringify({
-  //     ad_creative_id: adcreativeId,
-  //     ad_name: adName,
-  //     new_ads_content: tabContents[activeTab],
-  //     metric_to_optimize: selectedMetric,
-  //   });
+    let raw = JSON.stringify({
+      ad_creative_id: adcreativeId,
+      ad_name: adName,
+      new_ads_content: tabContents[activeTab],
+      metric_to_optimize: selectedMetric,
+    });
 
-  //   let requestOptions = {
-  //     method: "POST",
-  //     headers: myHeaders,
-  //     body: raw,
-  //     redirect: "follow",
-  //   };
+    let requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
 
-  //   console.log("post body::", raw);
+    console.log("post body::", raw);
 
-  //   fetch(`/abtesting/ad-ab-test/?account_id=${account_id}`, requestOptions)
-  //     .then((response) => {
-  //       const status = response.status;
-  //       if (response.ok) {
-  //         return { status };
-  //       } else {
-  //         throw new Error(`Request failed with status: ${status}`);
-  //       }
-  //     })
-  //     .then(({ status }) => {
-  //       setIsClicked(false);
-  //       if (status === 200) {
-  //         toast.success("Test Created successfully");
-  //         clearFields(); //clear fields on success
-  //       } else {
-  //         toast.warning(`Request failed with status: ${status}`);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("error", error);
-  //       toast.error("An error occurred while processing the request.");
-  //     });
-  // };
+    fetch(`/abtesting/ad-ab-test/?account_id=${account_id}`, requestOptions)
+      .then((response) => {
+        const status = response.status;
+        if (response.ok) {
+          return { status };
+        } else {
+          throw new Error(`Request failed with status: ${status}`);
+        }
+      })
+      .then(({ status }) => {
+        setIsClicked(false);
+        if (status === 200) {
+          toast.success("Test Created successfully");
+          clearFields(); //clear fields on success
+        } else {
+          toast.warning(`Request failed with status: ${status}`);
+        }
+      })
+      .catch((error) => {
+        console.error("error", error);
+        toast.error("An error occurred while processing the request.");
+      });
+  };
 
-  const launchTestFunction =()=>{
-    alert("clearing fields ")
-    clearFields();
-  }
+  // const launchTestFunction =()=>{
+  //   alert("clearing fields ")
+  //   clearFields();
+  // }
 
   return (
     <>
