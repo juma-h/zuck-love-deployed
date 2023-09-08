@@ -113,16 +113,7 @@
   margin: 5px;
 }
 
-.facebook-login-button{
-  padding: 1em;
-  border-radius: 12px;
-  font-weight: 500;
-  color: black;
-  background-color: white;
-  border: solid 0.5px lightgrey;
-  margin: 5px;
 
-}
 
 .log-icon {
   width: 30px;
@@ -217,4 +208,15 @@
   font-size: 18px;
   font-weight: 600;
   margin: 1em 0;
+}
+
+.my-facebook-button-class{
+  background-color: none;
+  padding: 1em;
+  border-radius: 12px;
+  font-weight: 500;
+  color: black;
+  background-color: white;
+  border: solid 0.5px lightgrey;
+  margin: 5px;
 }

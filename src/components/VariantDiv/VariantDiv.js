@@ -24,6 +24,10 @@ const VariantDiv = ({
   adName,
   adNameFn,
   isClicked,
+  selectedCampaign,
+  selectedAdset,
+  selectedAd,
+  selectedMetric,
 }) => {
   return (
     <div className="row variant-div">
@@ -44,6 +48,7 @@ const VariantDiv = ({
                 class="form-select  select-css"
                 aria-label="Campaign"
                 onChange={campaignFn}
+                value={selectedCampaign}
               >
                 <option disabled selected>
                   Campaign
@@ -56,6 +61,7 @@ const VariantDiv = ({
                 class="form-select select-css"
                 aria-label="Adset"
                 onChange={adsetFn}
+                value={selectedAdset}
               >
                 <option selected>Adset</option>
                 {adsetOptions}
@@ -66,6 +72,7 @@ const VariantDiv = ({
                 class="form-select select-css"
                 aria-label="Ad"
                 onChange={adFn}
+                value={selectedAd}
               >
                 <option disabled selected>
                   Ad
@@ -85,9 +92,10 @@ const VariantDiv = ({
             class="form-select select-css"
             aria-label="Metric"
             onChange={metricFn}
+            value={selectedMetric}
           >
             <option disabled selected>
-              Outbound CTR
+            Metric
             </option>
             {metricOptions}
           </select>

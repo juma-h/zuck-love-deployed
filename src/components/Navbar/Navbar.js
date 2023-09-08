@@ -12,6 +12,8 @@ const NavBar = () => {
 
   //navigate to login if no accessToken is seen
   useEffect(()=>{
+  
+    console.log("access token check 1 ")
     if(accessToken && accessToken !== null){
       navigate("/");   
     }else {
@@ -21,8 +23,8 @@ const NavBar = () => {
 
 
   const handleLogOut = ()=>{
-    navigate("/login")
     localStorage.clear();
+    navigate("/login")
     toast.success("User logged out!")
   }
 

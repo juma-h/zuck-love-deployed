@@ -42,6 +42,7 @@ function Copy() {
     const value = e.target.value;
     const newValue = extractNumbersFromString(value);
     setSelectAdset(newValue);
+
   };
 
   const handleSelectAd = (e) => {
@@ -59,9 +60,11 @@ function Copy() {
     setAdName(e.target.value);
   };
 
+
+
   //get campaigns for user
   useEffect(() => {
-    if (token && token !== null) {
+    if (token && token !== null && token!== "") {
       let myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
 
@@ -88,6 +91,7 @@ function Copy() {
 
   // get adset
   useEffect(() => {
+
     if (selectedCampaign && selectedCampaign !== null) {
       let myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
@@ -180,13 +184,14 @@ function Copy() {
       .catch((error) => console.log("error", error));
   }, [token]);
 
-  const clearFields = ()=>{
-    setSelectedAd("")
-    setSelectAdset("")
-    setSelectedCampaign("")
-    setSelectedMetric("")
-    setAdName("")
-  }
+  const clearFields = () => {
+    setSelectedCampaign(""); // Clear selected campaign
+    setSelectAdset(""); // Clear selected adset
+    setSelectedAd(""); // Clear selected ad
+    setSelectedMetric(""); // Clear selected metric
+    setAdName(""); // Clear adName
+  };
+  
 
   //get variations
   const getVariations = (index) => {
@@ -243,58 +248,64 @@ function Copy() {
   };
 
   // Launch New Test Fn
-  const launchTestFunction = (e) => {
-    e.preventDefault();
+  // const launchTestFunction = (e) => {
+  //   e.preventDefault();
 
-    setIsClicked(true);
+  //   setIsClicked(true);
 
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", `Bearer ${token}`);
+  //   let myHeaders = new Headers();
+  //   myHeaders.append("Content-Type", "application/json");
+  //   myHeaders.append("Authorization", `Bearer ${token}`);
 
-    let raw = JSON.stringify({
-      ad_creative_id: adcreativeId,
-      ad_name: adName,
-      new_ads_content: tabContents[activeTab],
-      metric_to_optimize: selectedMetric,
-    });
+  //   let raw = JSON.stringify({
+  //     ad_creative_id: adcreativeId,
+  //     ad_name: adName,
+  //     new_ads_content: tabContents[activeTab],
+  //     metric_to_optimize: selectedMetric,
+  //   });
 
-    let requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+  //   let requestOptions = {
+  //     method: "POST",
+  //     headers: myHeaders,
+  //     body: raw,
+  //     redirect: "follow",
+  //   };
 
-    console.log("post body::", raw);
+  //   console.log("post body::", raw);
 
-    fetch(`/abtesting/ad-ab-test/?account_id=${account_id}`, requestOptions)
-      .then((response) => {
-        const status = response.status;
-        if (response.ok) {
-          return { status };
-        } else {
-          throw new Error(`Request failed with status: ${status}`);
-        }
-      })
-      .then(({ status }) => {
-        setIsClicked(false);
-        if (status === 200) {
-          toast.success("Test Created successfully");
-          clearFields(); //clear fields on success
-        } else {
-          toast.warning(`Request failed with status: ${status}`);
-        }
-      })
-      .catch((error) => {
-        console.error("error", error);
-        toast.error("An error occurred while processing the request.");
-      });
-  };
+  //   fetch(`/abtesting/ad-ab-test/?account_id=${account_id}`, requestOptions)
+  //     .then((response) => {
+  //       const status = response.status;
+  //       if (response.ok) {
+  //         return { status };
+  //       } else {
+  //         throw new Error(`Request failed with status: ${status}`);
+  //       }
+  //     })
+  //     .then(({ status }) => {
+  //       setIsClicked(false);
+  //       if (status === 200) {
+  //         toast.success("Test Created successfully");
+  //         clearFields(); //clear fields on success
+  //       } else {
+  //         toast.warning(`Request failed with status: ${status}`);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("error", error);
+  //       toast.error("An error occurred while processing the request.");
+  //     });
+  // };
+
+  const launchTestFunction =()=>{
+    alert("clearing fields ")
+    clearFields();
+  }
 
   return (
     <>
       <VariantDiv
+
         campaignOptions={
           campaignData &&
           campaignData.length > 0 &&
@@ -309,6 +320,7 @@ function Copy() {
             </>
           ))
         }
+        // selectedCampaign={selectedCampaign}
         campaignFn={handleSelectCampaign}
         adsetOptions={
           adsetData &&
@@ -321,6 +333,7 @@ function Copy() {
             </>
           ))
         }
+        //  selectedAdset={selectedAdset}
         adsetFn={handleSelectAdset}
         adOptions={
           adData &&
@@ -333,7 +346,9 @@ function Copy() {
             </>
           ))
         }
+        // selectedAd={selectedAd}
         adFn={handleSelectAd}
+        // selectedMetric={selectedMetric}
         metricFn={handleSelectMetric}
         metricOptions={
           metricData &&

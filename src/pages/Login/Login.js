@@ -3,6 +3,7 @@ import "./login.css";
 import Laptop from "../../assets/laptop png 1.png";
 import ZuckLove from "../../assets/Done PNG-02 (1) 1.png";
 import facebook from "../../assets/image 7.png";
+import {toast} from "react-toastify";
 import google from "../../assets/icons8-google-48.png";
 import quote from "../../assets/Vector (1).png";
 import { useNavigate } from "react-router-dom";
@@ -22,20 +23,22 @@ const Login = () => {
     navigate("/sign-up");
   };
 
+
   const responseFacebook = (response) => {
     console.log("response", response);
     // Login failed
     if (response.status === "unknown") {
       alert("Login failed!");
+      toast.error("Login failed!")
       setLogin(false);
       return false;
     }
     setData(response);
     setPicture(response.picture.data.url);
     if (response.accessToken) {
+      toast.success("Login successful!")
       setLogin(true);
       setAccessToken(response.accessToken);
-
       localStorage.setItem("accessToken", response.accessToken);
       navigate("/");
     } else {
@@ -91,29 +94,19 @@ const Login = () => {
                   <img src={google} alt="Google Icon" className="log-icon" />
                   Google
                 </button>
-                {/* <button className="btn btn-light">
-                  <img src={facebook} alt="Google Icon" className="log-icon" /> */}
                 <FacebookLogin
-                  // style={{
-                  //   padding: "1em",
-                  //   borderRadius: "12px",
-                  //   fontWeight: 500,
-                  //   color: "black",
-                  //   backgroundColor: "white",
-                  //   border: "solid 0.5px lightgrey",
-                  //   margin: "5px",
-                  // }}
                    appId="2227338407463775"
                   // appId="665769488359790"
                   autoLoad={true}
                   fields="name,email,picture"
                   scope="public_profile"
+                  cssClass="my-facebook-button-class"
                   callback={responseFacebook}
-                  icon="fa-facebook"
+                  icon={<img src={facebook} alt="Google Icon" className="log-icon" /> }
+                  textButton="Facebook"
                 />
 
-                {/* Facebook
-                </button> */}
+           
               </div>
 
               <h6 className="signin-h2">
