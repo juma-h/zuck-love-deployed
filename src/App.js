@@ -34,7 +34,7 @@ function App() {
     ) {
       let myHeaders = new Headers();
 
-      console.log("getting the token");
+      // console.log("getting the token");
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
       let urlencoded = new URLSearchParams();
@@ -51,7 +51,7 @@ function App() {
         redirect: "follow",
       };
 
-      console.log("getting the token after");
+      // console.log("getting the token after");
       // console.log("raw body", urlencoded);
 
       fetch("/auth/convert-token/", requestOptions)
