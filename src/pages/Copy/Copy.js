@@ -185,11 +185,12 @@ function Copy() {
   }, [token]);
 
   const clearFields = () => {
-    setSelectedCampaign(""); // Clear selected campaign
-    setSelectAdset(""); // Clear selected adset
-    setSelectedAd(""); // Clear selected ad
-    setSelectedMetric(""); // Clear selected metric
-    setAdName(""); // Clear adName
+    
+    setSelectedCampaign("");
+    setSelectAdset(""); 
+    setSelectedAd("");
+    setSelectedMetric(""); 
+    setAdName("");
   };
   
 
