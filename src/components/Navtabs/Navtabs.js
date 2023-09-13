@@ -4,10 +4,10 @@ import "./navtabs.css";
 
 const NavTabs = ({
   tabs,
-  tabContents,
   handleTabClick,
   activeTab,
   isLoading,
+  tabContents,
 }) => {
   return (
     <div className="nav-tabs-container">
@@ -48,30 +48,47 @@ const NavTabs = ({
             />
             <p>Please wait, fetching variation...</p>
           </div>
-        ) : typeof tabContents === "string" ? (
-          tabContents.endsWith(".png") ||
-          tabContents.endsWith(".jpg") ||
-          tabContents.endsWith(".jpeg") ||
-          tabContents.endsWith(".gif") ||
-          tabContents.endsWith(".svg") ? (
-            <div className="tab-content">
-              <img
-                src={tabContents}
-                alt=""
-                style={{ width: "90%", height: "90%", padding: "1em" }}
-              />
-            </div>
-          ) : (
-            <div className="tab-content" style={{ whiteSpace: "pre-line" }}>
-              {activeTab !== null ? (
-                <>{tabContents}</>
+        ) : (
+          <div className="tab-content">
+            {typeof tabContents === "string" ? (
+              tabContents.endsWith(".png") ||
+              tabContents.endsWith(".jpg") ||
+              tabContents.endsWith(".jpeg") ||
+              tabContents.endsWith(".gif") ||
+              tabContents.endsWith(".svg") ? (
+                <div className="tab-content">
+                <img
+                  src={tabContents}
+                  alt=""
+                  style={{
+                    width: "90%",           
+                    height: "90%",        
+                    maxWidth: "100%",       
+                    padding: "1em"         
+                  }}
+                />
+              </div>
+              
               ) : (
-                "Click to fetch variation"
-              )}
-            </div>
-          )
-        ) : ("Click to fetch variation")// Handle the case where tabContents is not a string or null
-        }
+                <div className="tab-content">
+                         {activeTab !== null ? (
+                  <>{tabContents}</>
+                ) : (
+                  "Nothing to show yet"
+                )}
+                </div>
+              )
+            ) : (
+              <div className="tab-content" style={{ whiteSpace: "pre-line" }}>
+                {activeTab !== null ? (
+                  <>{tabContents}</>
+                ) : (
+                  "Nothing to show yet"
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

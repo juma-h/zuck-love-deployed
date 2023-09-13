@@ -1,19 +1,33 @@
 import React from "react";
-import "../VariantDiv/variant.css";
 import NavTabs from "../Navtabs/Navtabs";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import CircleInfo from "../../assets/circle-info.svg";
-import imageIcon from "../../assets/Fab_-_Keak_north_cool_inc 1.png";
+import "../VariantDiv/variant.css";
 
-
-const ImageVariant = () => {
-
-  const tabs = ["Image 1 ", "Image 2", "Image 3", "Image 4"];
-
-  console.log(typeof imageIcon);// string????
-  const tabContents = [imageIcon, "Image Here",imageIcon, "Image Here"];
-
+const ImageVariant = ({
+  campaignOptions,
+  campaignFn,
+  adsetOptions,
+  adsetFn,
+  adOptions,
+  adFn,
+  metricFn,
+  metricOptions,
+  tabs,
+  tabContents,
+  handleTabClick,
+  activeTab,
+  isLoading,
+  launchTestFn,
+  adName,
+  adNameFn,
+  isClicked,
+  selectedCampaign,
+  selectedAdset,
+  selectedAd,
+  selectedMetric,
+}) => {
   return (
     <div className="row variant-div">
       <h5>Select Image to Test</h5>
@@ -25,31 +39,44 @@ const ImageVariant = () => {
       </p>
       {/* select div below */}
       <div className="variant-select-div row">
-        <div className="col-md-6 mt-5">
+        <div className="col-md-7 mt-5">
           <p className="select-label">Select the following details below:</p>
           <div className="row ">
             <div className="col-md-4">
-              <select class="form-select  select-css" aria-label="Select 1">
-                <option selected>Campaign</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+              <select
+                class="form-select  select-css"
+                aria-label="Campaign"
+                onChange={campaignFn}
+                value={selectedCampaign}
+              >
+                <option disabled selected>
+                  Campaign
+                </option>
+                {campaignOptions}
               </select>
             </div>
             <div className="col-md-4">
-              <select class="form-select select-css" aria-label="Select 2">
+              <select
+                class="form-select select-css"
+                aria-label="Adset"
+                onChange={adsetFn}
+                value={selectedAdset}
+              >
                 <option selected>Adset</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                {adsetOptions}
               </select>
             </div>
             <div className="col-md-4">
-              <select class="form-select select-css" aria-label="Select 3">
-                <option selected>Ad</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+              <select
+                class="form-select select-css"
+                aria-label="Ad"
+                onChange={adFn}
+                value={selectedAd}
+              >
+                <option disabled selected>
+                  Ad
+                </option>
+                {adOptions}
               </select>
             </div>
           </div>
@@ -58,13 +85,18 @@ const ImageVariant = () => {
         <div className="col-md-1">
           <hr className="vertical-hr" />
         </div>
-        <div className="col-md-5 mt-5">
+        <div className="col-md-4 mt-5">
           <p className="select-label">Metric to optimize for:</p>
-          <select class="form-select select-css" aria-label="Select 3">
-            <option selected>Outbound CTR</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select
+            class="form-select select-css"
+            aria-label="Metric"
+            onChange={metricFn}
+            value={selectedMetric}
+          >
+            <option disabled selected>
+            Metric
+            </option>
+            {metricOptions}
           </select>
           <small className="helper-text">
             <img src={CircleInfo} alt="" className="info-alt" /> <b>Tip:</b>{" "}
@@ -116,9 +148,14 @@ const ImageVariant = () => {
         <hr className="horizontal-hr"></hr>
         {/* navtabs , results */}
 
-        <NavTabs tabs={tabs} tabContents={tabContents} />
+        <NavTabs
+          tabs={tabs}
+          tabContents={tabContents}
+          handleTabClick={handleTabClick}
+          activeTab={activeTab}
+          isLoading={isLoading}
+        />
 
-        {/* launch test div */}
         <div className="mt-5">
           <p style={{ textAlign: "left", fontSize: "20px" }}>New Ad Name</p>
           <div class="mb-3">
@@ -127,10 +164,16 @@ const ImageVariant = () => {
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Type something here"
+              value={adName}
+              onChange={adNameFn}
             />
           </div>
-          <button className="btn btn-primary btn-bg launch-btn">
-            Launch Test
+          <button
+            className="btn btn-primary btn-bg launch-btn"
+            onClick={launchTestFn}
+            disabled={adName === ""}
+          >
+            {isClicked ? "Launching test ..." : "Launch Test"}
           </button>
         </div>
       </div>
