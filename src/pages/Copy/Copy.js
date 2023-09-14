@@ -372,7 +372,7 @@ function Copy() {
         adName={adName}
         adNameFn={handleAdName}
         isClicked={isClicked}
-        launchTestFn={clearFields}
+        launchTestFn={launchTestFunction}
       />
     </>
   );

@@ -95,8 +95,8 @@ const Login = () => {
                   Google
                 </button>
                 <FacebookLogin
-                   appId="2227338407463775"
-                  // appId="665769488359790"
+                  //  appId="2227338407463775"
+                  appId="665769488359790"
                   autoLoad={true}
                   fields="name,email,picture"
                   scope="public_profile"

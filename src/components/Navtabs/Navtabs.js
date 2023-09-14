@@ -8,26 +8,31 @@ const NavTabs = ({
   activeTab,
   isLoading,
   tabContents,
-  index
+
+  fetchId,
 }) => {
   return (
     <div className="nav-tabs-container">
       <ul className="nav nav-pills nav-justified tab-buttons">
         {tabs.map((tab, index) => (
           <li className="nav-item variation-tab" key={index}>
-            <a
+            <button
               className={`nav-link ${
                 activeTab === index ? "active" : "inactive"
               }`}
               onClick={(e) => {
-                e.preventDefault();
-                handleTabClick(index);
+                if (fetchId === "") {
+                  e.preventDefault(); // Prevent the click event if fetchId is empty
+                } else {
+                  handleTabClick(index);
+                }
               }}
               href
+              disabled={fetchId === ""}
             >
               <span>{tab}</span>
               <i className="fa-regular fa-circle-xmark fa-2xs close-icon"></i>
-            </a>
+            </button>
           </li>
         ))}
       </ul>

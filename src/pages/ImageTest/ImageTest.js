@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ImageVariant } from "../../components";
 import { extractNumbersFromString } from "../../utils/utils";
 import { toast } from "react-toastify";
@@ -26,10 +26,9 @@ function ImageTest() {
   const [isClicked, setIsClicked] = useState(false);
   const [adBody, setAdBody] = useState("");
   const [imageId, setImageId] = useState("");
-  const [fnClicked, setFnClicked]= useState(false);
-  const [index, setIndex]= useState()
+  const [fnClicked, setFnClicked] = useState(false);
+  const [index, setIndex] = useState();
   const [retryCount, setRetryCount] = useState(0); // State to track the retry count
-
 
   const tabs = ["Variation 1", "Variation 2", "Variation 3", "Variation 4"];
   const [tabContents, setTabContents] = useState(
@@ -133,10 +132,8 @@ function ImageTest() {
 
   // get ad
   useEffect(() => {
-
     if (selectedAdset && selectedAdset !== null) {
-
-      console.log("Adset", selectedAdset)
+      console.log("Adset", selectedAdset);
       let myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
 
@@ -244,9 +241,7 @@ function ImageTest() {
     setAdName("");
   };
 
-  
-
-  const getVariationsWithRetry = (index) => {
+  const getVariationsWithRetry = useCallback((index) => {
 
     console.log("clicked");
     if (
@@ -255,12 +250,13 @@ function ImageTest() {
       imageId !== undefined
       // &&
       // dataCache[index] === null
-    ) {
+      ) {
       console.log("imageId", imageId);
-      setIsClicked(true)
-     console.log("retry::", retryCount)
+      toast.info("Image id is ready , click to fetch variations");
+      // setFnClicked(true);
+      // setRetryCount(1);
+      setRetryCount((prevRetryCount) => prevRetryCount + 1);
 
-    
       // Data is not cached, fetch it
       setIsLoading(true);
       setActiveTab(index);
@@ -275,7 +271,7 @@ function ImageTest() {
         redirect: "follow",
       };
 
-      console.log("where does it stop")
+      console.log("where does it stop");
 
       fetch(`/abtesting/upscale/${imageId}`, requestOptions)
         .then((response) => {
@@ -289,67 +285,61 @@ function ImageTest() {
             setIsLoading(false);
             console.log("image result", result);
 
-           console.log("upscaled::", result.data.upscaled_urls);
-         // Extract upscaled URLs from the result
-         const upscaledUrls = result.data.upscaled_urls || [];
+            console.log("upscaled::", result.data.upscaled_urls);
+            // Extract upscaled URLs from the result
+            const upscaledUrls = result.data.upscaled_urls || [];
 
-         const newTabContents = [...tabContents];
-         newTabContents[index] = upscaledUrls[index];
-         setDataCache(newTabContents);
+            const newTabContents = [...tabContents];
+            newTabContents[index] = upscaledUrls[index];
+            setDataCache(newTabContents);
 
-         // Update the content for the active tab
-         setTabContents(newTabContents);
-       }
-            
-          
+            // Update the content for the active tab
+            setTabContents(newTabContents);
+          }
         })
         .catch((error) => {
           console.log("error", error);
           // Retry the request after a delay (3 seconds)
-
         });
     } else {
       // Data is already cached, use it
       setActiveTab(index);
     }
-  };
+  }, [imageId, tabContents, token]);
+
 
 
   useEffect(() => {
-    if (fnClicked && retryCount > 0 && retryCount < 5) {
+    if (retryCount >= 0 && retryCount < 5) {
       console.log("retry count::", retryCount);
-      const delay = 5000;
-  
-      // Update retryCount before creating a timer
-      setRetryCount((prevRetryCount) => prevRetryCount + 1);
-  
-      // Create a timer to run the function again after the delay
+      const delay = 10000;
+
+      // Update
+      
       const timer = setTimeout(() => {
-        getVariationsWithRetry(index); // Pass the index
+        getVariationsWithRetry(index);
       }, delay);
-  
-      // Clean up the timer when the component unmounts or when fnClicked changes
+
       return () => clearTimeout(timer);
     }
-  }, [fnClicked, retryCount, index]);
-  
-
-
+  }, [getVariationsWithRetry, index, retryCount]);
 
   const handleTabClick = (index) => {
-    if (tabContents[index]?.content?.length === 0 || tabContents[index]?.content === null) {
+    if (
+      tabContents[index]?.content?.length === 0 ||
+      tabContents[index]?.content === null
+    ) {
       // Fetch data if content is empty
-      console.log("its empty ")
-      getVariationsWithRetry(index);
+      console.log("its empty ");
+      setIndex(index);
     } else {
-      console.log("its not empty , so we are here")
+      console.log("its not empty , so we are here");
       // Append data to the existing tabContents
       const newTabContents = [...tabContents];
-    //  setNewTabContent(newTabContents)
-
+      //  setNewTabContent(newTabContents)
     }
   };
-  
+
   // useEffect(() => {
   //   // Initial attempt to fetch variations
   //   handleTabClick();
@@ -437,7 +427,7 @@ function ImageTest() {
             </>
           ))
         }
-         selectedAdset={selectedAdset}
+        selectedAdset={selectedAdset}
         adsetFn={handleSelectAdset}
         adOptions={
           adData &&
@@ -476,7 +466,8 @@ function ImageTest() {
         adNameFn={handleAdName}
         index={index}
         isClicked={isClicked}
-        launchTestFn={clearFields}
+        launchTestFn={launchTestFunction}
+        fetchId={imageId}
       />
     </>
   );
