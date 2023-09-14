@@ -45,13 +45,13 @@ const HeadlinesVariant = ({
           <div className="row ">
             <div className="col-md-4">
               <select
-                class="form-select  select-css"
+                className="form-select select-css"
                 aria-label="Campaign"
                 onChange={campaignFn}
                 value={selectedCampaign}
               >
-                <option disabled selected>
-                  Campaign
+                <option value="" disabled selected>
+                  Choose Campaign
                 </option>
                 {campaignOptions}
               </select>
@@ -63,7 +63,7 @@ const HeadlinesVariant = ({
                 onChange={adsetFn}
                 value={selectedAdset}
               >
-                <option selected>Adset</option>
+                <option disabled selected value=""> Choose Adset</option>
                 {adsetOptions}
               </select>
             </div>
@@ -74,8 +74,8 @@ const HeadlinesVariant = ({
                 onChange={adFn}
                 value={selectedAd}
               >
-                <option disabled selected>
-                  Ad
+                <option  disabled selected value="">
+                  Choose Ad
                 </option>
                 {adOptions}
               </select>
@@ -94,7 +94,7 @@ const HeadlinesVariant = ({
             onChange={metricFn}
             value={selectedMetric}
           >
-            <option disabled selected>
+            <option  disabled selected value="">
             Metric
             </option>
             {metricOptions}

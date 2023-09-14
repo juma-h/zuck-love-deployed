@@ -26,6 +26,9 @@ function ImageTest() {
   const [isClicked, setIsClicked] = useState(false);
   const [adBody, setAdBody] = useState("");
   const [imageId, setImageId] = useState("");
+  const [fnClicked, setFnClicked]= useState(false);
+  const [index, setIndex]= useState()
+  const [retryCount, setRetryCount] = useState(0); // State to track the retry count
 
 
   const tabs = ["Variation 1", "Variation 2", "Variation 3", "Variation 4"];
@@ -130,7 +133,10 @@ function ImageTest() {
 
   // get ad
   useEffect(() => {
+
     if (selectedAdset && selectedAdset !== null) {
+
+      console.log("Adset", selectedAdset)
       let myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
 
@@ -238,7 +244,7 @@ function ImageTest() {
     setAdName("");
   };
 
-  const [retryCount, setRetryCount] = useState(0); // State to track the retry count
+  
 
   const getVariationsWithRetry = (index) => {
 
@@ -251,6 +257,8 @@ function ImageTest() {
       // dataCache[index] === null
     ) {
       console.log("imageId", imageId);
+      setIsClicked(true)
+     console.log("retry::", retryCount)
 
     
       // Data is not cached, fetch it
@@ -306,6 +314,28 @@ function ImageTest() {
     }
   };
 
+
+  useEffect(() => {
+    if (fnClicked && retryCount > 0 && retryCount < 5) {
+      console.log("retry count::", retryCount);
+      const delay = 5000;
+  
+      // Update retryCount before creating a timer
+      setRetryCount((prevRetryCount) => prevRetryCount + 1);
+  
+      // Create a timer to run the function again after the delay
+      const timer = setTimeout(() => {
+        getVariationsWithRetry(index); // Pass the index
+      }, delay);
+  
+      // Clean up the timer when the component unmounts or when fnClicked changes
+      return () => clearTimeout(timer);
+    }
+  }, [fnClicked, retryCount, index]);
+  
+
+
+
   const handleTabClick = (index) => {
     if (tabContents[index]?.content?.length === 0 || tabContents[index]?.content === null) {
       // Fetch data if content is empty
@@ -320,7 +350,6 @@ function ImageTest() {
     }
   };
   
-
   // useEffect(() => {
   //   // Initial attempt to fetch variations
   //   handleTabClick();
@@ -377,9 +406,6 @@ function ImageTest() {
   };
 
   // const launchTestFunction =()=>{
-  //   alert("clearing fields ")
-  //   clearFields();
-  // }
 
   return (
     <>
@@ -398,7 +424,7 @@ function ImageTest() {
             </>
           ))
         }
-        // selectedCampaign={selectedCampaign}
+        selectedCampaign={selectedCampaign}
         campaignFn={handleSelectCampaign}
         adsetOptions={
           adsetData &&
@@ -411,7 +437,7 @@ function ImageTest() {
             </>
           ))
         }
-        //  selectedAdset={selectedAdset}
+         selectedAdset={selectedAdset}
         adsetFn={handleSelectAdset}
         adOptions={
           adData &&
@@ -424,9 +450,9 @@ function ImageTest() {
             </>
           ))
         }
-        // selectedAd={selectedAd}
+        selectedAd={selectedAd}
         adFn={handleSelectAd}
-        // selectedMetric={selectedMetric}
+        selectedMetric={selectedMetric}
         metricFn={handleSelectMetric}
         metricOptions={
           metricData &&
@@ -448,8 +474,9 @@ function ImageTest() {
         isLoading={isLoading}
         adName={adName}
         adNameFn={handleAdName}
+        index={index}
         isClicked={isClicked}
-        launchTestFn={launchTestFunction}
+        launchTestFn={clearFields}
       />
     </>
   );

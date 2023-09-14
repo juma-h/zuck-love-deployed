@@ -321,7 +321,7 @@ function Copy() {
             </>
           ))
         }
-        // selectedCampaign={selectedCampaign}
+       selectedCampaign={selectedCampaign}
         campaignFn={handleSelectCampaign}
         adsetOptions={
           adsetData &&
@@ -334,7 +334,7 @@ function Copy() {
             </>
           ))
         }
-        //  selectedAdset={selectedAdset}
+         selectedAdset={selectedAdset}
         adsetFn={handleSelectAdset}
         adOptions={
           adData &&
@@ -347,9 +347,9 @@ function Copy() {
             </>
           ))
         }
-        // selectedAd={selectedAd}
+        selectedAd={selectedAd}
         adFn={handleSelectAd}
-        // selectedMetric={selectedMetric}
+        selectedMetric={selectedMetric}
         metricFn={handleSelectMetric}
         metricOptions={
           metricData &&
@@ -372,7 +372,7 @@ function Copy() {
         adName={adName}
         adNameFn={handleAdName}
         isClicked={isClicked}
-        launchTestFn={launchTestFunction}
+        launchTestFn={clearFields}
       />
     </>
   );

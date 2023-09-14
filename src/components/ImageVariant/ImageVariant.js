@@ -39,18 +39,18 @@ const ImageVariant = ({
       </p>
       {/* select div below */}
       <div className="variant-select-div row">
-        <div className="col-md-7 mt-5">
+      <div className="col-md-7 mt-5">
           <p className="select-label">Select the following details below:</p>
           <div className="row ">
             <div className="col-md-4">
               <select
-                class="form-select  select-css"
+                className="form-select select-css"
                 aria-label="Campaign"
                 onChange={campaignFn}
                 value={selectedCampaign}
               >
-                <option disabled selected>
-                  Campaign
+                <option value="" disabled selected>
+                  Choose Campaign
                 </option>
                 {campaignOptions}
               </select>
@@ -62,7 +62,7 @@ const ImageVariant = ({
                 onChange={adsetFn}
                 value={selectedAdset}
               >
-                <option selected>Adset</option>
+                <option disabled selected value=""> Choose Adset</option>
                 {adsetOptions}
               </select>
             </div>
@@ -73,8 +73,8 @@ const ImageVariant = ({
                 onChange={adFn}
                 value={selectedAd}
               >
-                <option disabled selected>
-                  Ad
+                <option  disabled selected value="">
+                  Choose Ad
                 </option>
                 {adOptions}
               </select>
@@ -93,7 +93,7 @@ const ImageVariant = ({
             onChange={metricFn}
             value={selectedMetric}
           >
-            <option disabled selected>
+            <option  disabled selected value="">
             Metric
             </option>
             {metricOptions}

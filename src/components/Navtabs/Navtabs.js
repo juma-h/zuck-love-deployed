@@ -8,6 +8,7 @@ const NavTabs = ({
   activeTab,
   isLoading,
   tabContents,
+  index
 }) => {
   return (
     <div className="nav-tabs-container">
@@ -57,25 +58,24 @@ const NavTabs = ({
               tabContents.endsWith(".gif") ||
               tabContents.endsWith(".svg") ? (
                 <div className="tab-content">
-                <img
-                  src={tabContents}
-                  alt=""
-                  style={{
-                    width: "90%",           
-                    height: "90%",        
-                    maxWidth: "100%",       
-                    padding: "1em"         
-                  }}
-                />
-              </div>
-              
+                  <img
+                    src={tabContents}
+                    alt=""
+                    style={{
+                      width: "90%",
+                      height: "90%",
+                      maxWidth: "100%",
+                      padding: "1em",
+                    }}
+                  />
+                </div>
               ) : (
                 <div className="tab-content">
-                         {activeTab !== null ? (
-                  <>{tabContents}</>
-                ) : (
-                  "Nothing to show yet"
-                )}
+                  {activeTab !== null ? (
+                    <>{tabContents}</>
+                  ) : (
+                    "Nothing to show yet"
+                  )}
                 </div>
               )
             ) : (
