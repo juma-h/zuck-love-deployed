@@ -4,8 +4,7 @@ import { extractNumbersFromString } from "../../utils/utils";
 import { toast } from "react-toastify";
 import { tab } from "@testing-library/user-event/dist/tab";
 import Spinner from "../../components/Spinner/Spinner";
-import ProgressBar from 'react-bootstrap/ProgressBar';
-
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 // import "./copy.css";
 
@@ -16,7 +15,7 @@ function ImageTest() {
 
   // useStates
   const [campaignData, setCampaignData] = useState([]);
-  const [progress, setProgress]= useState("")
+  const [progress, setProgress] = useState("");
   const [selectedCampaign, setSelectedCampaign] = useState("");
   const [selectedAdset, setSelectAdset] = useState("");
   const [adsetData, setAdsetData] = useState([]);
@@ -72,7 +71,6 @@ function ImageTest() {
   };
 
   const handleAdName = (e) => {
-  
     setAdName(e.target.value);
   };
 
@@ -203,7 +201,13 @@ function ImageTest() {
   const imageIdRef = useRef(null);
 
   useEffect(() => {
-    if (selectedAd && selectedAd !== null && adBody && adBody !== null && !imageIdRef.current) {
+    if (
+      selectedAd &&
+      selectedAd !== null &&
+      adBody &&
+      adBody !== null &&
+      !imageIdRef.current
+    ) {
       // alert("fetching");
       toast.info("Fetching Image Id, please wait ");
 
@@ -250,8 +254,6 @@ function ImageTest() {
     }
   }, [token, adBody, selectedAd]);
 
-  
-  
   const clearFields = () => {
     setSelectedCampaign("");
     setSelectAdset("");
@@ -271,26 +273,26 @@ function ImageTest() {
         // dataCache[index] === null
       ) {
         console.log("imageId", imageIdRef);
-  
+
         // setFnClicked(true);
         setIsLoading(true);
         // setRetryCount(1);
         setRetryCount((prevRetryCount) => prevRetryCount + 1);
-  
+
         // Function to fetch image and check status
         const fetchImageAndCheckStatus = () => {
           let myHeaders = new Headers();
           myHeaders.append("Content-Type", "application/json");
           myHeaders.append("Authorization", `Bearer ${token}`);
-  
+
           var requestOptions = {
             method: "GET",
             headers: myHeaders,
             redirect: "follow",
           };
-  
+
           console.log("where does it stop");
-  
+
           fetch(`/abtesting/upscale/${imageIdRef.current}`, requestOptions)
             .then((response) => {
               const status = response.status;
@@ -300,36 +302,42 @@ function ImageTest() {
             })
             .then(({ result, status }) => {
               console.log("uscale", result);
-              if (status === 200 && result.data.status === "pending" ||result.data.status === "in-progress") {
+              if (
+                (status === 200 && result.data.status === "pending") ||
+                result.data.status === "in-progress"
+              ) {
                 setProgress(result.data.progress);
-  
+
                 // Continue checking status after a delay (5 seconds)
                 setTimeout(fetchImageAndCheckStatus, 5000);
-              } else if (status === 200 && result.data.status === "completed" && result.data.upscaledUrls !== null ) {
-
-
+              } else if (
+                status === 200 &&
+                result.data.status === "completed" &&
+                result.data.upscaledUrls !== null
+              ) {
+                //if status is success
                 setIsLoading(false);
                 console.log("image result", result);
-  
+
                 console.log("upscaled::", result.data.upscaled_urls);
 
                 // // Extract upscaled URLs from the result
                 const upscaledUrls = result.data.upscaled_urls || [];
-  
-                 const newTabContents = [...tabContents];
+
+                const newTabContents = [...tabContents];
                 // newTabContents[index] = upscaledUrls[index];
                 // setDataCache(newTabContents);
-  
+
                 // // Update the content for the active tab
                 // setTabContents(newTabContents);
-                for (let i= 0 ; i < tabs.length ; i++){
-                  upscaledUrls[index]= newTabContents.content[index];
-                  console.log(newTabContents)
+                for (let i = 0; i < tabs.length; i++) {
+                  upscaledUrls[index] = newTabContents.content[index];
+                  console.log(newTabContents);
                 }
-                setTabContents(newTabContents)
-                
+                setTabContents(newTabContents);
+
                 // // Update the state
-                 console.log("TABS",tabContents); 
+                console.log("TABS", tabContents);
               }
             })
             .catch((error) => {
@@ -337,7 +345,7 @@ function ImageTest() {
               // Retry the request after a delay (3 seconds)
             });
         };
-  
+
         // Start checking status initially
         fetchImageAndCheckStatus();
       } else {
@@ -347,9 +355,6 @@ function ImageTest() {
     },
     [imageId, tabContents, token]
   );
-  
-
-
 
   const handleTabClick = (index) => {
     if (
@@ -453,13 +458,15 @@ function ImageTest() {
         }
         selectedAdset={selectedAdset}
         adsetFn={handleSelectAdset}
-        adOptions={adData &&
+        adOptions={
+          adData &&
           adData.length > 0 &&
           adData.map((ad) => (
             <option key={ad.id} value={ad.id}>
               {ad.name}
             </option>
-          ))}
+          ))
+        }
         selectedAd={selectedAd}
         adFn={handleSelectAd}
         selectedMetric={selectedMetric}
