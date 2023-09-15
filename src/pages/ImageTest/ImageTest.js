@@ -35,7 +35,10 @@ function ImageTest() {
   const [retryCount, setRetryCount] = useState(0); // State to track the retry count
   const [spinMsg, setSpinMsg] = useState("");
 
+  const [urlVariationPairs, setUrlVariationPairs]= useState([])
+
   const tabs = ["Variation 1", "Variation 2", "Variation 3", "Variation 4"];
+
   const [tabContents, setTabContents] = useState(
     tabs.map((tab) => ({
       title: tab,
@@ -43,7 +46,7 @@ function ImageTest() {
     }))
   );
 
-  //  const [tabContents, setTabContents]= useState([])
+  // const [tabContents, setTabContents] = useState([]);
   // Cache to store fetched data for each tab
   const [dataCache, setDataCache] = useState(Array(tabs.length).fill(null));
 
@@ -316,29 +319,32 @@ function ImageTest() {
                 result.data.upscaledUrls !== null
               ) {
                 //if status is success
+
+                //help needed here lmao
                 setIsLoading(false);
                 console.log("image result", result);
 
                 console.log("upscaled::", result.data.upscaled_urls);
 
-                // // Extract upscaled URLs from the result
+                //  Extract upscaled URLs from the result
                 const upscaledUrls = result.data.upscaled_urls || [];
-
+                
                 const newTabContents = [...tabContents];
-                // newTabContents[index] = upscaledUrls[index];
-                // setDataCache(newTabContents);
+                
+                newTabContents[index] = upscaledUrls[index];
+                setDataCache(newTabContents);
+            
 
-                // // Update the content for the active tab
-                // setTabContents(newTabContents);
-                for (let i = 0; i < tabs.length; i++) {
-                  upscaledUrls[index] = newTabContents.content[index];
-                  console.log(newTabContents);
-                }
-                setTabContents(newTabContents);
+                  // Update the content for the active tab
+                  setTabContents(newTabContents);
 
-                // // Update the state
-                console.log("TABS", tabContents);
+                  // -----------------------
+              
+
+               
+                console.log("tabs", tabContents);
               }
+             
             })
             .catch((error) => {
               console.log("error", error);
@@ -355,6 +361,8 @@ function ImageTest() {
     },
     [imageId, tabContents, token]
   );
+
+
 
   const handleTabClick = (index) => {
     if (

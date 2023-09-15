@@ -159,15 +159,19 @@ const Login = () => {
                 <FacebookLogin
                   appId="665769488359790"
                   onSuccess={responseFacebook}
+                  textButton="Facebook"
                   scope="public_profile"
                   style={{
-                    backgroundColor: "#4267b2",
-                    color: "#fff",
-                    fontSize: "16px",
-                    padding: "12px 24px",
-                    border: "none",
-                    borderRadius: "4px",
+                    backgroundColor: "none",
+                    padding: "1em",
+                    borderRadius: "12px",
+                    fontWeight: 500,
+                    color: "black",
+                    border: "solid 0.5px lightgrey",
+                    margin: "5px"
                   }}
+                  
+                  // cssClass="my-facebook-button-class"
                   icon={
                     <img
                       src={facebook}

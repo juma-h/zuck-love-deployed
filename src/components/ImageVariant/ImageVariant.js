@@ -1,5 +1,6 @@
 import React from "react";
 import ImageNavTabs from "../Navtabs/ImageNavtabs";
+import NavTabs from "../Navtabs/Navtabs";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import CircleInfo from "../../assets/circle-info.svg";
