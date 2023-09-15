@@ -6,8 +6,8 @@ import "./copy.css";
 
 function Copy() {
   //encrypt local storage items
-  const account_id = localStorage.getItem("account_id");
-  const token = localStorage.getItem("bearer_token");
+  const account_id = sessionStorage.getItem("account_id");
+  const token = sessionStorage.getItem("bearer_token");
 
   // useStates
   const [campaignData, setCampaignData] = useState([]);
@@ -48,6 +48,7 @@ function Copy() {
   const handleSelectAd = (e) => {
     const value = e.target.value;
     const newValue = extractNumbersFromString(value);
+    console.log("ad value", value)
     setSelectedAd(newValue);
   };
 
@@ -64,7 +65,10 @@ function Copy() {
 
   //get campaigns for user
   useEffect(() => {
+    console.log("gett")
     if (token && token !== null && token!== "") {
+      console.log("gett 1")
+   
       let myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
 
@@ -82,7 +86,7 @@ function Copy() {
           });
         })
         .then(({ result, status }) => {
-          // console.log(result);
+          console.log(result);
           if (status === 200 && result.length > 0) setCampaignData(result);
         })
         .catch((error) => console.log("error", error));
@@ -143,13 +147,14 @@ function Copy() {
           });
         })
         .then(({ result, status }) => {
-          // console.log("get ad response", result);
+          console.log("ads response", result);
           if (status === 200 && result.length > 0) {
             const adCreativeId = result[0].ad_creative.id;
             // Set the ad data and ad creative id
+           
             setAdData(result);
             setAdCreativeId(adCreativeId);
-            console.log("ad id", adCreativeId);
+            // console.log("ad id", adCreativeId);
           }
         })
         .catch((error) => console.log("error", error));
@@ -200,24 +205,37 @@ function Copy() {
       // Data is not cached, fetch it
       setIsLoading(true);
       setActiveTab(index);
-
+  
+      const controller = new AbortController();
+      const signal = controller.signal;
+  
+      // Set a 30-second timeout
+      const timeoutId = setTimeout(() => {
+        controller.abort(); 
+        setIsLoading(false);
+        console.log("Request timed out");
+        toast.error("Request timed out , try again");
+      }, 30000); 
+  
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", `Bearer ${token}`);
-
+  
       let raw = JSON.stringify({
         ad_creative_id: adcreativeId,
       });
-
+  
       let requestOptions = {
         method: "POST",
         headers: myHeaders,
         body: raw,
         redirect: "follow",
+        signal, 
       };
-
+  
       fetch("/abtesting/new-ad-content/", requestOptions)
         .then((response) => {
+          clearTimeout(timeoutId); 
           const status = response.status;
           return response.json().then((result) => {
             return { status, result };
@@ -230,20 +248,26 @@ function Copy() {
             const newDataCache = [...dataCache];
             newDataCache[index] = result;
             setDataCache(newDataCache);
-
+  
             // Update the content for the active tab
             const newTabContents = [...tabContents];
             newTabContents[index] = result;
             setTabContents(newTabContents);
           }
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => {
+          if (error.name === "AbortError") {
+            console.log("Request was aborted due to timeout");
+          } else {
+            console.log("Error:", error);
+          }
+        });
     } else {
       // Data is already cached, use it
       setActiveTab(index);
     }
   };
-
+  
   const handleTabClick = (index) => {
     getVariations(index);
   };
@@ -336,17 +360,15 @@ function Copy() {
         }
          selectedAdset={selectedAdset}
         adsetFn={handleSelectAdset}
-        adOptions={
-          adData &&
-          adData.length > 0 &&
-          adData.map((ad) => (
-            <>
-              <option key={ad.id} value={ad.name + " - " + ad.id}>
+        adOptions=
+          {adData &&
+            adData.length > 0 &&
+            adData.map((ad) => (
+              <option key={ad.id} value={ad.id}>
                 {ad.name}
               </option>
-            </>
-          ))
-        }
+            ))}
+        
         selectedAd={selectedAd}
         adFn={handleSelectAd}
         selectedMetric={selectedMetric}

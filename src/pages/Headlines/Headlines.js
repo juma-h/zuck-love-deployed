@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 
 function Headlines() {
   //encrypt local storage items
-  const account_id = localStorage.getItem("account_id");
-  const token = localStorage.getItem("bearer_token");
+  const account_id = sessionStorage.getItem("account_id");
+  const token = sessionStorage.getItem("bearer_token");
 
   // useStates
   const [campaignData, setCampaignData] = useState([]);
@@ -262,7 +262,7 @@ function Headlines() {
     let raw = JSON.stringify({
       ad_creative_id: adcreativeId,
       ad_name: adName,
-      new_ads_content: tabContents[activeTab],
+      new_ads_headline: tabContents[activeTab],
       metric_to_optimize: selectedMetric,
     });
 
@@ -294,6 +294,7 @@ function Headlines() {
         }
       })
       .catch((error) => {
+        setIsClicked(false)
         console.error("error", error);
         toast.error("An error occurred while processing the request.");
       });
@@ -318,7 +319,7 @@ function Headlines() {
             </>
           ))
         }
-        // selectedCampaign={selectedCampaign}
+        selectedCampaign={selectedCampaign}
         campaignFn={handleSelectCampaign}
         adsetOptions={
           adsetData &&
@@ -331,7 +332,7 @@ function Headlines() {
             </>
           ))
         }
-        //  selectedAdset={selectedAdset}
+         selectedAdset={selectedAdset}
         adsetFn={handleSelectAdset}
         adOptions={
           adData &&
@@ -344,9 +345,9 @@ function Headlines() {
             </>
           ))
         }
-        // selectedAd={selectedAd}
+        selectedAd={selectedAd}
         adFn={handleSelectAd}
-        // selectedMetric={selectedMetric}
+        selectedMetric={selectedMetric}
         metricFn={handleSelectMetric}
         metricOptions={
           metricData &&
@@ -369,7 +370,7 @@ function Headlines() {
         adName={adName}
         adNameFn={handleAdName}
         isClicked={isClicked}
-        launchTestFn={launchTestFunction}
+        launchTestFn={clearFields}
       />
     </>
   );

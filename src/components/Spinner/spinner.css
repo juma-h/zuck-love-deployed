@@ -1,0 +1,20 @@
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: fixed;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(245, 241, 241, 0.4);
+  z-index: 999;
+  width: 100%;
+}
+.spinner-text {
+  margin-top: 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: black;
+}

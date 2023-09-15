@@ -63,7 +63,7 @@ const HeadlinesVariant = ({
                 onChange={adsetFn}
                 value={selectedAdset}
               >
-                <option disabled selected value=""> Choose Adset</option>
+                <option  value="" disabled selected > Choose Adset</option>
                 {adsetOptions}
               </select>
             </div>
@@ -74,7 +74,7 @@ const HeadlinesVariant = ({
                 onChange={adFn}
                 value={selectedAd}
               >
-                <option  disabled selected value="">
+                <option value=""  disabled selected >
                   Choose Ad
                 </option>
                 {adOptions}

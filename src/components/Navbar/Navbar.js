@@ -8,22 +8,23 @@ const NavBar = () => {
 
   const navigate = useNavigate();
 
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = sessionStorage.getItem('accessToken');
 
   //navigate to login if no accessToken is seen
   useEffect(()=>{
   
-    console.log("access token check 1 ")
     if(accessToken && accessToken !== null){
+      console.log("access token found")
       navigate("/");   
     }else {
+      console.log("access token not found")
       navigate("/login")
     }
   },[accessToken])
 
 
   const handleLogOut = ()=>{
-    localStorage.clear();
+    sessionStorage.clear();
     navigate("/login")
     toast.success("User logged out!")
   }

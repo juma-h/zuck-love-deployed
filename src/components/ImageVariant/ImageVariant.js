@@ -1,5 +1,5 @@
 import React from "react";
-import NavTabs from "../Navtabs/Navtabs";
+import ImageNavTabs from "../Navtabs/ImageNavtabs";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import CircleInfo from "../../assets/circle-info.svg";
@@ -25,8 +25,10 @@ const ImageVariant = ({
   isClicked,
   selectedCampaign,
   selectedAdset,
+  fetchId,
   selectedAd,
   selectedMetric,
+  now
 }) => {
   return (
     <div className="row variant-div">
@@ -39,7 +41,7 @@ const ImageVariant = ({
       </p>
       {/* select div below */}
       <div className="variant-select-div row">
-      <div className="col-md-7 mt-5">
+        <div className="col-md-7 mt-5">
           <p className="select-label">Select the following details below:</p>
           <div className="row ">
             <div className="col-md-4">
@@ -62,7 +64,10 @@ const ImageVariant = ({
                 onChange={adsetFn}
                 value={selectedAdset}
               >
-                <option disabled selected value=""> Choose Adset</option>
+                <option value="" disabled selected>
+                  {" "}
+                  Choose Adset
+                </option>
                 {adsetOptions}
               </select>
             </div>
@@ -73,7 +78,7 @@ const ImageVariant = ({
                 onChange={adFn}
                 value={selectedAd}
               >
-                <option  disabled selected value="">
+                <option value="" disabled selected>
                   Choose Ad
                 </option>
                 {adOptions}
@@ -93,8 +98,8 @@ const ImageVariant = ({
             onChange={metricFn}
             value={selectedMetric}
           >
-            <option  disabled selected value="">
-            Metric
+            <option disabled selected value="">
+              Metric
             </option>
             {metricOptions}
           </select>
@@ -148,12 +153,14 @@ const ImageVariant = ({
         <hr className="horizontal-hr"></hr>
         {/* navtabs , results */}
 
-        <NavTabs
+        <ImageNavTabs
           tabs={tabs}
           tabContents={tabContents}
           handleTabClick={handleTabClick}
           activeTab={activeTab}
           isLoading={isLoading}
+          fetchId={fetchId}
+          now={now}
         />
 
         <div className="mt-5">

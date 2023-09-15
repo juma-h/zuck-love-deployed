@@ -3,11 +3,12 @@ import "./login.css";
 import Laptop from "../../assets/laptop png 1.png";
 import ZuckLove from "../../assets/Done PNG-02 (1) 1.png";
 import facebook from "../../assets/image 7.png";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import google from "../../assets/icons8-google-48.png";
 import quote from "../../assets/Vector (1).png";
 import { useNavigate } from "react-router-dom";
-import FacebookLogin from "react-facebook-login";
+// import FacebookLogin from "react-facebook-login";
+import FacebookLogin from "@greatsumini/react-facebook-login";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,7 +16,12 @@ const Login = () => {
   const [data, setData] = useState({});
   const [picture, setPicture] = useState("");
   const [accessToken, setAccessToken] = useState("");
-
+  const [clientId, setClientId] = useState(
+    "xDtdNsu7yFQ6QKuRyToKsMgbjZkxo2Xn8qLX1LMF"
+  );
+  const [clientSecret, setClientSecret] = useState(
+    "pGBkfeGYuF7W4Z2C73FH8dRyFnPuIowdJptruKV6VpBH79oaVRrGdIWXEWWmbyMGFB5mWHnTpIzrDhZSgJq2obrc1GVKuRZE6WOregecNXlUR6xLOsD1ejFSw6HVWOPV"
+  );
 
   const navigate = useNavigate();
 
@@ -23,30 +29,74 @@ const Login = () => {
     navigate("/sign-up");
   };
 
-
   const responseFacebook = (response) => {
     console.log("response", response);
+
     // Login failed
     if (response.status === "unknown") {
       alert("Login failed!");
-      toast.error("Login failed!")
+      toast.error("Login failed!");
       setLogin(false);
       return false;
     }
+
     setData(response);
-    setPicture(response.picture.data.url);
-    if (response.accessToken) {
-      toast.success("Login successful!")
-      setLogin(true);
+    // setPicture(response.picture.data.url);
+
+    if (response.accessToken && response.accessToken !== null) {
+      console.log("yes");
+
       setAccessToken(response.accessToken);
-      localStorage.setItem("accessToken", response.accessToken);
-      navigate("/");
+      sessionStorage.setItem("accessToken", response.accessToken);
+
+      const fbAccessToken = response.accessToken;
+      const useToken =
+        "EAAJdg4nbIW4BO5ZBiyhONL18Sf4tCB5f7kZBteUooQAa7sAgFgoEp9FmgIyxYZCZBv0fYwDkfr3x3dFKHxbhoVCBDCPbIufasIuQtg1RjqeAN9zizopNv0UmhcZAGOJIa02601ykV35X0AdafmOVjb2b7gTocAJ0fvalCraGizU0tOlPCTxzZALBX0";
+
+      // Prepare the request data
+      const formData = new FormData();
+      formData.append("grant_type", "convert_token");
+      formData.append("client_id", clientId);
+      formData.append("client_secret", clientSecret);
+      formData.append("backend", "facebook");
+      formData.append("token", useToken);
+
+      // Make the POST request
+      fetch("/auth/convert-token/", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            return response.json();
+          } else {
+            throw new Error("Authentication failed");
+          }
+        })
+        .then((data) => {
+          if (
+            data.access_token &&
+            data.access_token !== null &&
+            data.access_token !== ""
+          ) {
+            // Assuming the response contains an access_token
+            const accessToken = data.access_token;
+            sessionStorage.setItem("bearer_token", accessToken);
+            sessionStorage.setItem("account_id", "896631874812550");
+            console.log("login");
+            navigate("/");
+            toast.success("Login successful!");
+            setLogin(true);
+          }
+        })
+        .catch((error) => {
+          console.error("Authentication error", error);
+          sessionStorage.setItem("bearer_token", null);
+        });
     } else {
       setLogin(false);
     }
   };
-
-
 
   return (
     <>
@@ -94,7 +144,7 @@ const Login = () => {
                   <img src={google} alt="Google Icon" className="log-icon" />
                   Google
                 </button>
-                <FacebookLogin
+                {/* <FacebookLogin
                   //  appId="2227338407463775"
                   appId="665769488359790"
                   autoLoad={true}
@@ -104,9 +154,28 @@ const Login = () => {
                   callback={responseFacebook}
                   icon={<img src={facebook} alt="Google Icon" className="log-icon" /> }
                   textButton="Facebook"
-                />
+                /> */}
 
-           
+                <FacebookLogin
+                  appId="665769488359790"
+                  onSuccess={responseFacebook}
+                  scope="public_profile"
+                  style={{
+                    backgroundColor: "#4267b2",
+                    color: "#fff",
+                    fontSize: "16px",
+                    padding: "12px 24px",
+                    border: "none",
+                    borderRadius: "4px",
+                  }}
+                  icon={
+                    <img
+                      src={facebook}
+                      alt="Google Icon"
+                      className="log-icon"
+                    />
+                  }
+                />
               </div>
 
               <h6 className="signin-h2">

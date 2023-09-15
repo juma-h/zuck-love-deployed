@@ -14,67 +14,67 @@ import { useState, useEffect } from "react";
 function App() {
 
 
-  const fbAccessToken = localStorage.getItem("accessToken");
+  //const fbAccessToken = localStorage.getItem("accessToken");
   // console.log("accessToken", fbAccessToken);
 
-  const [clientId, setClientId] = useState(
-    "xDtdNsu7yFQ6QKuRyToKsMgbjZkxo2Xn8qLX1LMF"
-  );
-  const [clientSecret, setClientSecret] = useState(
-    "pGBkfeGYuF7W4Z2C73FH8dRyFnPuIowdJptruKV6VpBH79oaVRrGdIWXEWWmbyMGFB5mWHnTpIzrDhZSgJq2obrc1GVKuRZE6WOregecNXlUR6xLOsD1ejFSw6HVWOPV"
-  );
+  // const [clientId, setClientId] = useState(
+  //   "xDtdNsu7yFQ6QKuRyToKsMgbjZkxo2Xn8qLX1LMF"
+  // );
+  // const [clientSecret, setClientSecret] = useState(
+  //   "pGBkfeGYuF7W4Z2C73FH8dRyFnPuIowdJptruKV6VpBH79oaVRrGdIWXEWWmbyMGFB5mWHnTpIzrDhZSgJq2obrc1GVKuRZE6WOregecNXlUR6xLOsD1ejFSw6HVWOPV"
+  // );
 
 
   //get the auth token
-  useEffect(() => {
-    if (
-      fbAccessToken &&
-      fbAccessToken !== null &&
-      fbAccessToken !== undefined
-    ) {
-      let myHeaders = new Headers();
+  // useEffect(() => {
+  //   if (
+  //     fbAccessToken &&
+  //     fbAccessToken !== null &&
+  //     fbAccessToken !== undefined
+  //   ) {
+  //     let myHeaders = new Headers();
 
-      // console.log("getting the token");
-      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  //     // console.log("getting the token");
+  //     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-      let urlencoded = new URLSearchParams();
-      urlencoded.append("grant_type", "convert_token");
-      urlencoded.append("client_secret", clientSecret);
-      urlencoded.append("client_id", clientId);
-      urlencoded.append("token", fbAccessToken);
-      urlencoded.append("backend", "facebook");
+  //     let urlencoded = new URLSearchParams();
+  //     urlencoded.append("grant_type", "convert_token");
+  //     urlencoded.append("client_secret", clientSecret);
+  //     urlencoded.append("client_id", clientId);
+  //     urlencoded.append("token", fbAccessToken);
+  //     urlencoded.append("backend", "facebook");
 
-      let requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: "follow",
-      };
+  //     let requestOptions = {
+  //       method: "POST",
+  //       headers: myHeaders,
+  //       body: urlencoded,
+  //       redirect: "follow",
+  //     };
 
-      // console.log("getting the token after");
-      // console.log("raw body", urlencoded);
+  //     // console.log("getting the token after");
+  //     // console.log("raw body", urlencoded);
 
-      fetch("/auth/convert-token/", requestOptions)
-      .then((response) => {
-        const status = response.status;
-        return response.json().then((result) => {
-          return { status, result };
-        });
-      })
-        .then(({result, status}) => {
-          // console.log("result", result)
-          // console.log("status", status)
-          if(status === 200){
-            localStorage.setItem("bearer_token", result.access_token);
-            localStorage.setItem("account_id", "896631874812550")
-            // console.log("accessToken for zuck", result.access_token)
-          }else {
-            localStorage.setItem("bearer_token", null);
-          }
-        })
-        .catch((error) => {console.log("error", error)});
-    }
-  }, [fbAccessToken, clientId, clientSecret]);
+  //     fetch("/auth/convert-token/", requestOptions)
+  //     .then((response) => {
+  //       const status = response.status;
+  //       return response.json().then((result) => {
+  //         return { status, result };
+  //       });
+  //     })
+  //       .then(({result, status}) => {
+  //         // console.log("result", result)
+  //         // console.log("status", status)
+  //         if(status === 200){
+  //           localStorage.setItem("bearer_token", result.access_token);
+  //           localStorage.setItem("account_id", "896631874812550")
+  //           // console.log("accessToken for zuck", result.access_token)
+  //         }else {
+  //           localStorage.setItem("bearer_token", null);
+  //         }
+  //       })
+  //       .catch((error) => {console.log("error", error)});
+  //   }
+  // }, [fbAccessToken, clientId, clientSecret]);
 
   return (
     <Router>
