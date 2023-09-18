@@ -197,6 +197,12 @@ function Headlines() {
 
   //get variations
   const getVariations = (index) => {
+
+    if(!adcreativeId){
+      toast.error("No ad creative id");
+      return;
+    }
+    
     if (dataCache[index] === null) {
       // Data is not cached, fetch it
       setIsLoading(true);

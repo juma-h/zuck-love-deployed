@@ -35,18 +35,22 @@ function ImageTest() {
   const [retryCount, setRetryCount] = useState(0); // State to track the retry count
   const [spinMsg, setSpinMsg] = useState("");
 
-  const [urlVariationPairs, setUrlVariationPairs]= useState([])
+  const [urlVariationPairs, setUrlVariationPairs] = useState([]);
 
   const tabs = ["Variation 1", "Variation 2", "Variation 3", "Variation 4"];
 
   const [tabContents, setTabContents] = useState(
     tabs.map((tab) => ({
       title: tab,
-      content: [],
+      content: "",
     }))
   );
 
+  // const updatedTabContents = [...tabContents];
+  // console.log("updated", updatedTabContents.content)
+
   // const [tabContents, setTabContents] = useState([]);
+
   // Cache to store fetched data for each tab
   const [dataCache, setDataCache] = useState(Array(tabs.length).fill(null));
 
@@ -321,37 +325,31 @@ function ImageTest() {
                 //if status is success
 
                 //help needed here lmao
-                setIsLoading(false);
+
                 console.log("image result", result);
 
                 console.log("upscaled::", result.data.upscaled_urls);
 
                 //  Extract upscaled URLs from the result
                 const upscaledUrls = result.data.upscaled_urls || [];
-                
                 const newTabContents = [...tabContents];
-                
-                newTabContents[index] = upscaledUrls[index];
-                setDataCache(newTabContents);
-            
+                // console.log("start tab contents", newTabContents);
 
-                  // Update the content for the active tab
-                  setTabContents(newTabContents);
+                const updatedTabContents = tabContents.map((tab, index) => ({
+                  ...tab,
+                  content: upscaledUrls[index] || tab.content,
+                }));
+                setTabContents(updatedTabContents);
+                console.log("end ", tabContents);
+                setDataCache(updatedTabContents);
 
-                  // -----------------------
-              
-
-               
-                console.log("tabs", tabContents);
+                setIsLoading(false);
               }
-             
             })
             .catch((error) => {
               console.log("error", error);
-              // Retry the request after a delay (3 seconds)
             });
         };
-
         // Start checking status initially
         fetchImageAndCheckStatus();
       } else {
@@ -359,25 +357,35 @@ function ImageTest() {
         setActiveTab(index);
       }
     },
-    [imageId, tabContents, token]
+    [imageIdRef, tabContents, token]
   );
 
-
+  useEffect(() => {
+    if (tabContents && tabContents !== null) {
+      toast.info(
+        "Images fetched succesfully! Click button again to load them!"
+      );
+    }
+  }, [tabContents]);
 
   const handleTabClick = (index) => {
+    setIsLoading(true);
     if (
       tabContents[index]?.content?.length === 0 ||
       tabContents[index]?.content === null
       // tabContents.length === 0
     ) {
       // Fetch data if content is empty
-      console.log("its empty ");
+      console.log("its empty :), lets fetch");
       getVariationsWithRetry(index);
     } else {
-      console.log("its not empty , so we are here");
-      // Append data to the existing tabContents
-      const newTabContents = [...tabContents];
-      //  setNewTabContent(newTabContents)
+      setIsLoading(false);
+      console.log("its not empty , so here we are");
+      console.log("non empty Content", tabContents);
+      const updatedTabContents = [...tabContents];
+      setTabContents(updatedTabContents);
+
+      setActiveTab(index);
     }
   };
 
@@ -433,9 +441,6 @@ function ImageTest() {
 
   return (
     <>
-      {/* {spinMsg && spinMsg !== "" ? (
-        <Spinner msg={spinMsg} />
-      ) : ( */}
       <ImageVariant
         campaignOptions={
           campaignData &&
@@ -495,7 +500,7 @@ function ImageTest() {
         handleTabClick={handleTabClick}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        tabContents={tabContents[activeTab] || ""}
+        tabContents={tabContents || ""}
         isLoading={isLoading}
         adName={adName}
         adNameFn={handleAdName}

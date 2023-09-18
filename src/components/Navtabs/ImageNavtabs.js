@@ -40,6 +40,7 @@ const ImageNavTabs = ({
       {/* Display the content based on the active tab */}
       <div className="tab-content-container">
         {isLoading ? (
+          // Loading state
           <div className="loading-container">
             <ProgressBar
               style={{ width: "100%" }}
@@ -50,30 +51,45 @@ const ImageNavTabs = ({
             />
           </div>
         ) : (
+          // Content display when not loading
           <div className="tab-content">
-            {typeof tabContents === "string" ? (
-              tabContents.endsWith(".png") ||
-              tabContents.endsWith(".jpg") ||
-              tabContents.endsWith(".jpeg") ||
-              tabContents.endsWith(".gif") ||
-              tabContents.endsWith(".svg") ? (
-                <div className="tab-content">
+            {console.log("Tab contents after is loading false")}
+            {console.log(tabContents)}
+            {tabContents && tabContents.length > 0 ? (
+              // Check if tabContents has data
+              typeof tabContents[activeTab]?.content === "string" ? (
+                // Check if tabContents is a string
+                tabContents[activeTab].content.endsWith(".png") ||
+                tabContents[activeTab].content.endsWith(".jpg") ||
+                tabContents[activeTab].content.endsWith(".jpeg") ||
+                tabContents[activeTab].content.endsWith(".gif") ||
+                tabContents[activeTab].content.endsWith(".svg") ? (
+                  // If it's an image URL, display the image
+                  <>
+                  {console.log("Render an image tag")}
                   <img
-                    src={tabContents}
+                    src={tabContents[activeTab].content}
                     alt=""
                     style={{
-                      width: "90%",
-                      height: "90%",
+                      width: "600px",
+                      height: "500px",
                       maxWidth: "100%",
                       padding: "1em",
                     }}
+                    onLoad={() => {console.log("Loaded img tag for tab " + activeTab)}}
                   />
-                </div>
+                  </>
+                ) : (
+                  // If it's not an image URL, display "Nothing to show"
+                  "Nothing to show"
+                )
               ) : (
-                "Nothing to show"
+                // If tabContents is not a string, display this message
+                "Click to fetch variations after getting image id"
               )
             ) : (
-             "Click to fetch variations after getting image id"
+              // If tabContents is empty, display a message
+              "No data available"
             )}
           </div>
         )}
