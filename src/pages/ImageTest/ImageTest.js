@@ -361,7 +361,7 @@ function ImageTest() {
   );
 
   useEffect(() => {
-    if (tabContents && tabContents !== null) {
+    if (tabContents && tabContents[index].content !== null) {
       toast.info(
         "Images fetched succesfully! Click button again to load them!"
       );
