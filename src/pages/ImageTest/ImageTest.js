@@ -478,7 +478,7 @@ function ImageTest() {
               </option>
             </>
           )): (
-            <option value="">No Adset data available</option>
+            <option value="">No adset data available</option>
           )
         }
         selectedAdset={selectedAdset}

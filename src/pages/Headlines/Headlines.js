@@ -313,7 +313,7 @@ function Headlines() {
 
         campaignOptions={
           campaignData &&
-          campaignData.length > 0 &&
+          campaignData.length > 0 ?
           campaignData.map((campaign) => (
             <>
               <option
@@ -323,33 +323,39 @@ function Headlines() {
                 {campaign.name}
               </option>
             </>
-          ))
+          )) : (
+            <option value="">No campaign data available</option>
+          )
         }
         selectedCampaign={selectedCampaign}
         campaignFn={handleSelectCampaign}
         adsetOptions={
           adsetData &&
-          adsetData.length > 0 &&
+          adsetData.length > 0 ?
           adsetData.map((adset) => (
             <>
               <option key={adset.id} value={adset.name + " - " + adset.id}>
                 {adset.name}
               </option>
             </>
-          ))
+          )): (
+            <option value="">No adset data available</option>
+          )
         }
          selectedAdset={selectedAdset}
         adsetFn={handleSelectAdset}
         adOptions={
           adData &&
-          adData.length > 0 &&
+          adData.length > 0 ?
           adData.map((ad) => (
             <>
               <option key={ad.id} value={ad.name + " - " + ad.id}>
                 {ad.name}
               </option>
             </>
-          ))
+          )) : (
+            <option value="">No ad data available</option>
+          )
         }
         selectedAd={selectedAd}
         adFn={handleSelectAd}
@@ -357,14 +363,16 @@ function Headlines() {
         metricFn={handleSelectMetric}
         metricOptions={
           metricData &&
-          metricData.length > 0 &&
+          metricData.length > 0 ?
           metricData.map((metric) => (
             <>
               <option key={metric.id} value={metric.field_name}>
                 {metric.name}
               </option>
             </>
-          ))
+          )): (
+            <option value="">No metric data available</option>
+          )
         }
         tabs={tabs}
         // tabContents={tabContents}
