@@ -8,7 +8,6 @@ const NavTabs = ({
   activeTab,
   isLoading,
   tabContents,
-
   fetchId,
 }) => {
   return (
@@ -28,9 +27,17 @@ const NavTabs = ({
                 }
               }}
               href
-              disabled={fetchId === ""}
+              disabled={fetchId === null || fetchId === ""}
             >
-              <span>{tab}</span>
+              <span
+                style={{
+                  fontWeight: 500,
+                  // color: "#417ef2",
+                  fontSize: "14px",
+                }}
+              >
+                {tab}
+              </span>
               <i className="fa-regular fa-circle-xmark fa-2xs close-icon"></i>
             </button>
           </li>
@@ -56,41 +63,16 @@ const NavTabs = ({
           </div>
         ) : (
           <div className="tab-content">
-            {typeof tabContents === "string" ? (
-              tabContents.endsWith(".png") ||
-              tabContents.endsWith(".jpg") ||
-              tabContents.endsWith(".jpeg") ||
-              tabContents.endsWith(".gif") ||
-              tabContents.endsWith(".svg") ? (
-                <div className="tab-content">
-                  <img
-                    src={tabContents}
-                    alt=""
-                    style={{
-                      width: "90%",
-                      height: "90%",
-                      maxWidth: "100%",
-                      padding: "1em",
-                    }}
-                  />
-                </div>
-              ) : (
-                <div className="tab-content">
-                  {activeTab !== null ? (
-                    <>{tabContents}</>
-                  ) : (
-                    "Nothing to show yet"
-                  )}
-                </div>
-              )
-            ) : (
+            {tabContents && tabContents!== null && typeof tabContents === "string"? (
               <div className="tab-content" style={{ whiteSpace: "pre-line" }}>
                 {activeTab !== null ? (
                   <>{tabContents}</>
                 ) : (
-                  "Nothing to show yet"
+                  "Content"
                 )}
               </div>
+            ) : (
+              "Variation content here after fetching variations"
             )}
           </div>
         )}

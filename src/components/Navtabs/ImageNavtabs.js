@@ -1,4 +1,7 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import { CircularProgressbar } from "react-circular-progressbar";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import "./navtabs.css";
 
@@ -11,6 +14,15 @@ const ImageNavTabs = ({
   fetchId,
   now,
 }) => {
+
+  const [initialRender, setInitialRender] = useState(true);
+
+  useEffect(() => {
+    // When isLoading becomes false, set initialRender to false
+    if (isLoading=== false) {
+      setInitialRender(false);
+    }
+  }, [isLoading]);
   return (
     <div className="nav-tabs-container">
       <ul className="nav nav-pills nav-justified tab-buttons">
@@ -20,17 +32,18 @@ const ImageNavTabs = ({
               className={`nav-link ${
                 activeTab === index ? "active" : "inactive"
               }`}
-              onClick={(e) => {
-                if (fetchId === "") {
-                  e.preventDefault(); // Prevent the click event if fetchId is empty
-                } else {
-                  handleTabClick(index);
-                }
-              }}
-       
+              onClick={() => handleTabClick(index)}
               disabled={fetchId === null}
             >
-              <span>{tab}</span>
+              <span
+                style={{
+                  fontWeight: 500,
+                  // color: "#417ef2",
+                  fontSize: "14px",
+                }}
+              >
+                {tab}
+              </span>
               <i className="fa-regular fa-circle-xmark fa-2xs close-icon"></i>
             </button>
           </li>
@@ -42,20 +55,40 @@ const ImageNavTabs = ({
         {isLoading ? (
           // Loading state
           <div className="loading-container">
-            <ProgressBar
-              style={{ width: "100%" }}
-              animated
-              variant="info"
-              now={now}
-              label={`${now}%`}
-            />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress
+                sx={{
+                  color: "#417ef2",
+                  animationDuration: "10000ms",
+                }}
+                size={80}
+                thickness={3}
+              />
+              <p
+                style={{
+                  fontWeight: "bold",
+                  color: "#417ef280",
+                  marginTop: "10px",
+                  fontSize: "20px",
+                }}
+              >
+                {`${now === null ? 0 : now}%`}...
+              </p>
+            </Box>
           </div>
         ) : (
           // Content display when not loading
           <div className="tab-content">
             {console.log("Tab contents after is loading false")}
             {console.log(tabContents)}
-            {tabContents && tabContents.length > 0   && tabContents[activeTab] ? (
+            {tabContents && tabContents.length > 0 && tabContents[activeTab] ? (
+              
               // Check if tabContents has data
               typeof tabContents[activeTab].content === "string" ? (
                 // Check if tabContents is a string
@@ -65,20 +98,28 @@ const ImageNavTabs = ({
                 tabContents[activeTab].content.endsWith(".gif") ||
                 tabContents[activeTab].content.endsWith(".svg") ? (
                   // If it's an image URL, display the image
-                  <>
-                  {console.log("Render an image tag")}
-                  <img
-                    src={tabContents[activeTab].content}
-                    alt=""
+                  <div
                     style={{
-                      width: "600px",
-                      height: "500px",
-                      maxWidth: "100%",
-                      padding: "1em",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      margin: "1em",
                     }}
-                    onLoad={() => {console.log("Loaded img tag for tab " + activeTab)}}
-                  />
-                  </>
+                  >
+                    {console.log("Render an image tag")}
+                    <img
+                      src={tabContents[activeTab].content}
+                      alt=""
+                      style={{
+                        width: "700px",
+                        height: "500px",
+                        maxWidth: "100%",
+                      }}
+                      onLoad={() => {
+                        console.log("Loaded img tag for tab " + activeTab);
+                      }}
+                    />
+                  </div>
                 ) : (
                   // If it's not an image URL, display "Nothing to show"
                   "Nothing to show"
@@ -88,8 +129,9 @@ const ImageNavTabs = ({
                 "Click to fetch variations after getting image id"
               )
             ) : (
-              // If tabContents is empty, display a message
-              "No data available"
+              initialRender
+                ? "Images will be shown here after fetching variations"
+                : <p> Images are ready!🤩Click the buttons to load image variations</p>
             )}
           </div>
         )}

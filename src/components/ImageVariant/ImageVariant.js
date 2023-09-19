@@ -7,6 +7,7 @@ import CircleInfo from "../../assets/circle-info.svg";
 import "../VariantDiv/variant.css";
 
 const ImageVariant = ({
+  fetchImageVariations,
   campaignOptions,
   campaignFn,
   adsetOptions,
@@ -24,12 +25,13 @@ const ImageVariant = ({
   adName,
   adNameFn,
   isClicked,
+  buttonState,
   selectedCampaign,
   selectedAdset,
   fetchId,
   selectedAd,
   selectedMetric,
-  now
+  now,
 }) => {
   return (
     <div className="row variant-div">
@@ -150,6 +152,19 @@ const ImageVariant = ({
             </small>
           </div>
         </div>
+
+        {buttonState && (
+          <button className="btn btn-primary" onClick={(e) => {
+            if (fetchId === "") {
+              e.preventDefault(); 
+            } else {
+              fetchImageVariations()
+            }
+          }}>
+        
+            Click to generate images
+          </button>
+        )}
 
         <hr className="horizontal-hr"></hr>
         {/* navtabs , results */}

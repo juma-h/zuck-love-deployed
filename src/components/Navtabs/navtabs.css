@@ -42,6 +42,7 @@
   text-align: left;
 }
 
+
 .tab-content:focus{
   border: 2px solid #d7e3fa;
   outline: none;
@@ -60,7 +61,7 @@
 
 .variation-tab {
   background-color: white;
-  border: solid 1px #417ef280;
+  border: solid 2px #417ef280;
   border-radius: 4px;
 
 }
