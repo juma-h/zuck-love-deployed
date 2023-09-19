@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { ImageVariant } from "../../components";
 import { extractNumbersFromString } from "../../utils/utils";
 import { toast } from "react-toastify";
-import { tab } from "@testing-library/user-event/dist/tab";
+
 import Spinner from "../../components/Spinner/Spinner";
-import ProgressBar from "react-bootstrap/ProgressBar";
+
 
 // import "./copy.css";
 
@@ -34,6 +34,7 @@ function ImageTest() {
   const [index, setIndex] = useState();
   const [retryCount, setRetryCount] = useState(0); // State to track the retry count
   const [spinMsg, setSpinMsg] = useState("");
+  const [buttonState, setButtonState]= useState(false);
 
   const [urlVariationPairs, setUrlVariationPairs] = useState([]);
 
@@ -215,24 +216,26 @@ function ImageTest() {
       adBody !== null &&
       !imageIdRef.current
     ) {
-      // alert("fetching");
-      toast.info("Fetching Image Id, please wait ");
-
-      var myHeaders = new Headers();
+      const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("Authorization", `Bearer ${token}`);
-
-      var raw = JSON.stringify({
+  
+      const raw = JSON.stringify({
         ad_copy: adBody,
       });
-
-      var requestOptions = {
+  
+      const requestOptions = {
         method: "POST",
         headers: myHeaders,
         body: raw,
         redirect: "follow",
       };
-
+  
+      // Show the initial "Fetching Image Id" toast
+      let toastId = toast.info("Fetching image id, please wait", {
+        autoClose: false, 
+      });
+  
       fetch("/abtesting/imagine/", requestOptions)
         .then((response) => {
           const status = response.status;
@@ -246,20 +249,30 @@ function ImageTest() {
           console.log("image result", result);
           if (result.data && result.data.id) {
             imageIdRef.current = result.data.id; // Set imageId using the ref
-            toast.success("Image Id ready, click to fetch variations");
-
-            console.log("abtest result::", result.data.id);
+            setButtonState(true);
+  
+            // Update the toast with the "Image Id found" message and color
+            toast.update(toastId, {
+              type: toast.TYPE.SUCCESS,
+              render: "Image id found, click to fetch variations",
+            });
           } else {
             throw new Error("Invalid response format");
           }
         })
         .catch((error) => {
           console.log("error", error);
-          // Handle the error, e.g., show an error toast or message
-          toast.error("Error fetching image id");
+  
+          // Update the toast with the "Error fetching image id" message and color
+          toast.update(toastId, {
+            type: toast.TYPE.ERROR,
+            render: "Error fetching image id",
+          });
         });
     }
   }, [token, adBody, selectedAd]);
+  
+  
 
   const clearFields = () => {
     setSelectedCampaign("");
@@ -271,7 +284,7 @@ function ImageTest() {
 
   const getVariationsWithRetry = useCallback(
     (index) => {
-      console.log("clicked");
+      // console.log("clicked");
 
       if (
         imageIdRef &&
@@ -280,13 +293,12 @@ function ImageTest() {
         // &&
         // dataCache[index] === null
       ) {
-        console.log("imageId", imageIdRef);
+        console.log("imageId", imageIdRef.current);
 
-        // setFnClicked(true);
+    
         setIsLoading(true);
         // setRetryCount(1);
-        setRetryCount((prevRetryCount) => prevRetryCount + 1);
-
+       
         // Function to fetch image and check status
         const fetchImageAndCheckStatus = () => {
           let myHeaders = new Headers();
@@ -358,7 +370,7 @@ function ImageTest() {
         setActiveTab(index);
       }
     },
-    [imageIdRef, tabContents, token]
+    [imageIdRef.current, tabContents, token]
   );
 
   useEffect(() => {
@@ -373,36 +385,52 @@ function ImageTest() {
     }
   }, [tabContents, index]);
 
-  const handleTabClick = (index) => {
+
+
+  const fetchImageVariations = (index) =>{
+
     if (!imageIdRef.current) {
       toast.error("Image id is null");
       return;
+    }else{
+      console.log("fetch images")  
+     getVariationsWithRetry(index);
     }
+  }
+  const handleTabClick = (index) => {
 
-    setIsLoading(true);
-    if (
-      tabContents[index]?.content?.length === 0 ||
-      tabContents[index]?.content === null
-      // tabContents.length === 0
-    ) {
-      // Fetch data if content is empty
-      console.log("its empty :), lets fetch");
-      getVariationsWithRetry(index);
-    } else {
-      setIsLoading(false);
-      console.log("its not empty , so here we are");
-      console.log("non empty Content", tabContents);
-      const updatedTabContents = [...tabContents];
-      setTabContents(updatedTabContents);
-
-      setActiveTab(index);
-    }
-  };
+    setIsLoading(false)
+    setActiveTab(index);
+    const newTabContents = [...tabContents]
+    setTabContents(newTabContents)
+  }
+  
 
   // Launch New Test Fn
   const launchTestFunction = (e) => {
+    
     e.preventDefault();
 
+    if (!adcreativeId) {
+      toast.warning("Please provide the ad creative id");
+      return;
+    }
+    
+    if (!adName) {
+      toast.warning("Please provide the ad name");
+      return;
+    }
+    
+    if (!tabContents[activeTab]) {
+      toast.warning("Please fetch variations by clicking the button");
+      return;
+    }
+    
+    if (!selectedMetric) {
+      toast.warning("Please select a metric to optimize");
+      return;
+    }
+    
     setIsClicked(true);
 
     let myHeaders = new Headers();
@@ -444,6 +472,7 @@ function ImageTest() {
         }
       })
       .catch((error) => {
+        setIsLoading(false)
         console.error("error", error);
         toast.error("An error occurred while processing the request.");
       });
@@ -524,7 +553,10 @@ function ImageTest() {
         isClicked={isClicked}
         launchTestFn={launchTestFunction}
         now={progress}
-        fetchId={imageIdRef}
+        fetchId={imageIdRef.current}
+        buttonState={buttonState}
+        fetchImageVariations={fetchImageVariations}
+        
       />
       {/* )} */}
     </>

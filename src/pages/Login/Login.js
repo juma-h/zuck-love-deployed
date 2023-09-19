@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 import google from "../../assets/icons8-google-48.png";
 import quote from "../../assets/Vector (1).png";
 import { useNavigate } from "react-router-dom";
-// import FacebookLogin from "react-facebook-login";
-import FacebookLogin from "@greatsumini/react-facebook-login";
+ import FacebookLogin from "react-facebook-login";
+//import FacebookLogin from "@greatsumini/react-facebook-login";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -144,7 +144,7 @@ const Login = () => {
                   <img src={google} alt="Google Icon" className="log-icon" />
                   Google
                 </button>
-                {/* <FacebookLogin
+                <FacebookLogin
                   //  appId="2227338407463775"
                   appId="665769488359790"
                   autoLoad={true}
@@ -154,9 +154,9 @@ const Login = () => {
                   callback={responseFacebook}
                   icon={<img src={facebook} alt="Google Icon" className="log-icon" /> }
                   textButton="Facebook"
-                /> */}
+                />
 
-                <FacebookLogin
+                {/* <FacebookLogin
                   appId="665769488359790"
                   onSuccess={responseFacebook}
                   textButton="Facebook"
@@ -179,7 +179,7 @@ const Login = () => {
                       className="log-icon"
                     />
                   }
-                />
+                /> */}
               </div>
 
               <h6 className="signin-h2">

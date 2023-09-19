@@ -257,6 +257,28 @@ function Headlines() {
 
   // Launch New Test Fn
   const launchTestFunction = (e) => {
+
+    
+    if (!adcreativeId) {
+      toast.warning("Please provide the ad creative ID");
+      return;
+    }
+    
+    if (!adName) {
+      toast.warning("Please provide the ad name");
+      return;
+    }
+    
+    if (!tabContents[activeTab]) {
+      toast.warning("Please fetch variations by clicking the button");
+      return;
+    }
+    
+    if (!selectedMetric) {
+      toast.warning("Please select a metric to optimize");
+      return;
+    }
+    
     e.preventDefault();
 
     setIsClicked(true);
@@ -384,7 +406,8 @@ function Headlines() {
         adName={adName}
         adNameFn={handleAdName}
         isClicked={isClicked}
-        launchTestFn={clearFields}
+        fetchId={adcreativeId}
+        launchTestFn={launchTestFunction}
       />
     </>
   );

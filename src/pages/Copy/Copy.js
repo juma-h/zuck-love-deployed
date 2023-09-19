@@ -281,6 +281,27 @@ function Copy() {
   const launchTestFunction = (e) => {
     e.preventDefault();
 
+    if (!adcreativeId) {
+      toast.warning("Please provide the ad creative ID");
+      return;
+    }
+    
+    if (!adName) {
+      toast.warning("Please provide the ad name");
+      return;
+    }
+    
+    if (!tabContents[activeTab]) {
+      toast.warning("Please fetch variations by clicking the button");
+      return;
+    }
+    
+    if (!selectedMetric) {
+      toast.warning("Please select a metric to optimize");
+      return;
+    }
+    
+
     setIsClicked(true);
 
     let myHeaders = new Headers();
@@ -322,6 +343,7 @@ function Copy() {
         }
       })
       .catch((error) => {
+        setIsLoading(false)
         console.error("error", error);
         toast.error("An error occurred while processing the request.");
       });
@@ -407,6 +429,7 @@ function Copy() {
         isLoading={isLoading}
         adName={adName}
         adNameFn={handleAdName}
+        fetchId={adcreativeId}
         isClicked={isClicked}
         launchTestFn={launchTestFunction}
       />
