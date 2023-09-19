@@ -17,12 +17,12 @@ const ImageNavTabs = ({
 
   const [initialRender, setInitialRender] = useState(true);
 
-  useEffect(() => {
-    // When isLoading becomes false, set initialRender to false
-    if (isLoading=== false) {
-      setInitialRender(false);
-    }
-  }, [isLoading]);
+  // useEffect(() => {
+  //   // When isLoading becomes false, set initialRender to false
+  //   if (!isLoading) {
+  //     setInitialRender(false);
+  //   }
+  // }, [isLoading]);
   return (
     <div className="nav-tabs-container">
       <ul className="nav nav-pills nav-justified tab-buttons">
