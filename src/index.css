@@ -22,3 +22,6 @@ code {
   --f-color: #dfeaff;
   --success-color: #28a745;
 }
+.custom-toast-container {
+  width: 400px !important;
+}
