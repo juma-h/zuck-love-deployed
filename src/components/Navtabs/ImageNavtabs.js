@@ -27,8 +27,8 @@ const ImageNavTabs = ({
                   handleTabClick(index);
                 }
               }}
-              href
-              disabled={fetchId === ""}
+       
+              disabled={fetchId === null}
             >
               <span>{tab}</span>
               <i className="fa-regular fa-circle-xmark fa-2xs close-icon"></i>
@@ -55,9 +55,9 @@ const ImageNavTabs = ({
           <div className="tab-content">
             {console.log("Tab contents after is loading false")}
             {console.log(tabContents)}
-            {tabContents && tabContents.length > 0 ? (
+            {tabContents && tabContents.length > 0   && tabContents[activeTab] ? (
               // Check if tabContents has data
-              typeof tabContents[activeTab]?.content === "string" ? (
+              typeof tabContents[activeTab].content === "string" ? (
                 // Check if tabContents is a string
                 tabContents[activeTab].content.endsWith(".png") ||
                 tabContents[activeTab].content.endsWith(".jpg") ||

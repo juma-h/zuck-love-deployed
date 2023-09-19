@@ -272,6 +272,7 @@ function ImageTest() {
   const getVariationsWithRetry = useCallback(
     (index) => {
       console.log("clicked");
+
       if (
         imageIdRef &&
         imageIdRef !== null &&
@@ -361,14 +362,23 @@ function ImageTest() {
   );
 
   useEffect(() => {
-    if (tabContents && tabContents[index].content !== null) {
+    if (
+      tabContents &&
+      tabContents[index] &&
+      tabContents[index].content !== null
+    ) {
       toast.info(
-        "Images fetched succesfully! Click button again to load them!"
+        "Images fetched successfully! Click the button again to load them!"
       );
     }
-  }, [tabContents]);
+  }, [tabContents, index]);
 
   const handleTabClick = (index) => {
+    if (!imageIdRef.current) {
+      toast.error("Image id is null");
+      return;
+    }
+
     setIsLoading(true);
     if (
       tabContents[index]?.content?.length === 0 ||
@@ -443,42 +453,46 @@ function ImageTest() {
     <>
       <ImageVariant
         campaignOptions={
-          campaignData &&
-          campaignData.length > 0 &&
-          campaignData.map((campaign) => (
-            <>
+          campaignData && campaignData.length > 0 ? (
+            campaignData.map((campaign) => (
               <option
                 key={campaign.id}
                 value={campaign.name + " - " + campaign.id}
               >
                 {campaign.name}
               </option>
-            </>
-          ))
+            ))
+          ) : (
+            <option value="">No campaign data available</option>
+          )
         }
         selectedCampaign={selectedCampaign}
         campaignFn={handleSelectCampaign}
         adsetOptions={
           adsetData &&
-          adsetData.length > 0 &&
+          adsetData.length > 0 ?
           adsetData.map((adset) => (
             <>
               <option key={adset.id} value={adset.name + " - " + adset.id}>
                 {adset.name}
               </option>
             </>
-          ))
+          )): (
+            <option value="">No Adset data available</option>
+          )
         }
         selectedAdset={selectedAdset}
         adsetFn={handleSelectAdset}
         adOptions={
           adData &&
-          adData.length > 0 &&
+          adData.length > 0 ?
           adData.map((ad) => (
             <option key={ad.id} value={ad.id}>
               {ad.name}
             </option>
-          ))
+          )): (
+            <option value="">No ad data available</option>
+          )
         }
         selectedAd={selectedAd}
         adFn={handleSelectAd}
@@ -486,14 +500,16 @@ function ImageTest() {
         metricFn={handleSelectMetric}
         metricOptions={
           metricData &&
-          metricData.length > 0 &&
+          metricData.length > 0 ?
           metricData.map((metric) => (
             <>
               <option key={metric.id} value={metric.field_name}>
                 {metric.name}
               </option>
             </>
-          ))
+          )): (
+            <option value="">No metric data available</option>
+          )
         }
         tabs={tabs}
         // tabContents={tabContents}
