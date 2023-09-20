@@ -154,7 +154,7 @@ const ImageVariant = ({
         </div>
 
         {buttonState && (
-          <button className="btn btn-primary" onClick={(e) => {
+          <button className="btn btn-primary ml-2 mr-2" onClick={(e) => {
             if (fetchId === "") {
               e.preventDefault(); 
             } else {

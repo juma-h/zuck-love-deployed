@@ -15,14 +15,25 @@ const ImageNavTabs = ({
   now,
 }) => {
 
-  const [initialRender, setInitialRender] = useState(true);
+  // const [initialRender, setInitialRender] = useState(true);
+  let initialRender = true;
 
-  // useEffect(() => {
-  //   // When isLoading becomes false, set initialRender to false
-  //   if (!isLoading) {
-  //     setInitialRender(false);
-  //   }
-  // }, [isLoading]);
+  useEffect(() => {
+    
+    let previousIsLoading = isLoading;
+    console.log("previous", previousIsLoading)
+
+    if (isLoading === false) {
+      console.log("inside", isLoading)
+    initialRender = false;
+
+    }
+    console.log("render after", initialRender)
+
+    // previousIsLoading = isLoading;
+    console.log("new", previousIsLoading)
+  }, [isLoading, initialRender]);
+  
   return (
     <div className="nav-tabs-container">
       <ul className="nav nav-pills nav-justified tab-buttons">
@@ -84,7 +95,7 @@ const ImageNavTabs = ({
           </div>
         ) : (
           // Content display when not loading
-          <div className="tab-content">
+          <div className="tab-content-image">
             {console.log("Tab contents after is loading false")}
             {console.log(tabContents)}
             {tabContents && tabContents.length > 0 && tabContents[activeTab] ? (
@@ -103,7 +114,8 @@ const ImageNavTabs = ({
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      margin: "1em",
+                      padding: "1em",
+                      height:"100%"
                     }}
                   >
                     {console.log("Render an image tag")}
@@ -111,8 +123,10 @@ const ImageNavTabs = ({
                       src={tabContents[activeTab].content}
                       alt=""
                       style={{
+                        // width: "100%",
+                        // height: "100%",
                         width: "700px",
-                        height: "500px",
+                        height: "100%",
                         maxWidth: "100%",
                       }}
                       onLoad={() => {
@@ -130,7 +144,7 @@ const ImageNavTabs = ({
               )
             ) : (
               initialRender
-                ? "Images will be shown here after fetching variations"
+                ? <p>Images will be shown here after generating images. Click on the variation button after loading</p>
                 : <p> Images are ready!🤩Click the buttons to load image variations</p>
             )}
           </div>

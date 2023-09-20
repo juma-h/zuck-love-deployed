@@ -1,37 +1,50 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import IconImage from "../../assets/Done PNG-02 (1) 1.png";
-import { NavLink , useNavigate} from "react-router-dom";
-import {toast} from "react-toastify";
+import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./navbar.css";
 
 const NavBar = () => {
-
   const navigate = useNavigate();
 
-  const accessToken = sessionStorage.getItem('accessToken');
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    sessionStorage.getItem("accessToken") !== null ||
+      localStorage.getItem("accessToken") !== null
+  );
+
+  console.log(isLoggedIn);
+
+  // const accessToken = sessionStorage.getItem('accessToken');
+  // const localAccessToken = localStorage.getItem("accessToken")
 
   //navigate to login if no accessToken is seen
-  useEffect(()=>{
-  
-    if(accessToken && accessToken !== null){
-      console.log("access token found")
-      navigate("/");   
-    }else {
-      console.log("access token not found")
-      navigate("/login")
+  useEffect(() => {
+    if (isLoggedIn) {
+      console.log("access token found");
+      navigate("/");
+    } else {
+      console.log("access token not found");
+      navigate("/login");
     }
-  },[accessToken])
+  }, [isLoggedIn]);
 
-
-  const handleLogOut = ()=>{
+  const handleLogOut = () => {
     sessionStorage.clear();
-    navigate("/login")
-    toast.success("User logged out!")
-  }
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("bearer_token");
+    localStorage.removeItem("account_id");
+    localStorage.removeItem("fblst_665769488359790")
+    localStorage.clear()
+    
 
-  const handleLogin =()=>{
     navigate("/login");
-  }
+    toast.success("User logged out!");
+  };
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg mt-3">
       <div className="container-fluid navbar-top">
@@ -55,7 +68,7 @@ const NavBar = () => {
                   fontWeight: isActive ? "bold" : "normal",
                   color: isActive ? "black" : "grey",
                   margin: "0.5rem",
-                  textDecoration: 'none'
+                  textDecoration: "none",
                 })}
               >
                 Product
@@ -68,7 +81,7 @@ const NavBar = () => {
                   fontWeight: isActive ? "bold" : "normal",
                   color: isActive ? "black" : "grey",
                   margin: "0.5rem",
-                  textDecoration: 'none'
+                  textDecoration: "none",
                 })}
                 to="/"
               >
@@ -82,7 +95,7 @@ const NavBar = () => {
                   fontWeight: isActive ? "bold" : "normal",
                   color: isActive ? "black" : "grey",
                   margin: "0.5rem",
-                  textDecoration: 'none'
+                  textDecoration: "none",
                 })}
                 to="/headlines"
               >
@@ -96,7 +109,7 @@ const NavBar = () => {
                   fontWeight: isActive ? "bold" : "normal",
                   color: isActive ? "black" : "grey",
                   margin: "0.5rem",
-                  textDecoration: 'none'
+                  textDecoration: "none",
                 })}
                 to="/images"
               >
@@ -108,8 +121,11 @@ const NavBar = () => {
 
         <div className="d-flex align-items-center m-3">
           <form className="d-flex" role="search">
-            <button className="btn btn-primary" onClick={accessToken && accessToken !== null? handleLogOut : handleLogin}>
-             {accessToken && accessToken !== null ? "Log Out" : "Log In"}
+            <button
+              className="btn btn-primary"
+              onClick={isLoggedIn ? handleLogOut : handleLogin}
+            >
+              {isLoggedIn ? "Log Out" : "Log In"}
             </button>
           </form>
         </div>

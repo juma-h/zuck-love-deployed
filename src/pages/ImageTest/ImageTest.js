@@ -10,8 +10,8 @@ import Spinner from "../../components/Spinner/Spinner";
 
 function ImageTest() {
   //encrypt local storage items
-  const account_id = sessionStorage.getItem("account_id");
-  const token = sessionStorage.getItem("bearer_token");
+  const account_id = localStorage.getItem("account_id");
+  const token = localStorage.getItem("bearer_token");
 
   // useStates
   const [campaignData, setCampaignData] = useState([]);
@@ -232,7 +232,7 @@ function ImageTest() {
       };
   
       // Show the initial "Fetching Image Id" toast
-      let toastId = toast.info("Fetching image id, please wait", {
+      let toastId = toast.info("Fetching images, please wait 😊", {
         autoClose: false, 
       });
   
@@ -254,7 +254,8 @@ function ImageTest() {
             // Update the toast with the "Image Id found" message and color
             toast.update(toastId, {
               type: toast.TYPE.SUCCESS,
-              render: "Image id found, click to fetch variations",
+              render: "Your images are ready🤗, click below to generate",
+              autoClose: 5000,
             });
           } else {
             throw new Error("Invalid response format");
@@ -266,7 +267,8 @@ function ImageTest() {
           // Update the toast with the "Error fetching image id" message and color
           toast.update(toastId, {
             type: toast.TYPE.ERROR,
-            render: "Error fetching image id",
+            render: "Error fetching images 😐",
+            autoClose: 5000,
           });
         });
     }

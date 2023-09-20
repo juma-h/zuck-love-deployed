@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import {
   ZuckLove,
   Copy,
@@ -12,7 +17,18 @@ import "./App.css";
 import { useState, useEffect } from "react";
 
 function App() {
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      console.log("no token")
+      navigate("/login");
+    }else {
+      console.log("token found")
+      navigate("/")
+    }
+  }, []);
 
   //const fbAccessToken = localStorage.getItem("accessToken");
   // console.log("accessToken", fbAccessToken);
@@ -23,7 +39,6 @@ function App() {
   // const [clientSecret, setClientSecret] = useState(
   //   "pGBkfeGYuF7W4Z2C73FH8dRyFnPuIowdJptruKV6VpBH79oaVRrGdIWXEWWmbyMGFB5mWHnTpIzrDhZSgJq2obrc1GVKuRZE6WOregecNXlUR6xLOsD1ejFSw6HVWOPV"
   // );
-
 
   //get the auth token
   // useEffect(() => {
@@ -77,7 +92,7 @@ function App() {
   // }, [fbAccessToken, clientId, clientSecret]);
 
   return (
-    <Router>
+    // <Router>
       <div className="App">
         <Routes>
           <Route path="/sign-up" element={<SignUp />} />
@@ -90,7 +105,7 @@ function App() {
           </Route>
         </Routes>
       </div>
-    </Router>
+    // </Router>
   );
 }
 

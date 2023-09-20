@@ -7,8 +7,8 @@ import { toast } from "react-toastify";
 
 function Headlines() {
   //encrypt local storage items
-  const account_id = sessionStorage.getItem("account_id");
-  const token = sessionStorage.getItem("bearer_token");
+  const account_id = localStorage.getItem("account_id");
+  const token = localStorage.getItem("bearer_token");
 
   // useStates
   const [campaignData, setCampaignData] = useState([]);

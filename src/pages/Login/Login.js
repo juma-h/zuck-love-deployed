@@ -44,10 +44,12 @@ const Login = () => {
     // setPicture(response.picture.data.url);
 
     if (response.accessToken && response.accessToken !== null) {
+
       console.log("yes");
 
       setAccessToken(response.accessToken);
-      sessionStorage.setItem("accessToken", response.accessToken);
+      // sessionStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("accessToken", response.accessToken);
 
       const fbAccessToken = response.accessToken;
       const useToken =
@@ -81,8 +83,12 @@ const Login = () => {
           ) {
             // Assuming the response contains an access_token
             const accessToken = data.access_token;
-            sessionStorage.setItem("bearer_token", accessToken);
-            sessionStorage.setItem("account_id", "896631874812550");
+            // sessionStorage.setItem("bearer_token", accessToken);
+            // sessionStorage.setItem("account_id", "896631874812550");
+            // -------------
+            localStorage.setItem("bearer_token", accessToken);
+            localStorage.setItem("account_id", "896631874812550");
+
             console.log("login");
             navigate("/");
             toast.success("Login successful!");
@@ -91,7 +97,8 @@ const Login = () => {
         })
         .catch((error) => {
           console.error("Authentication error", error);
-          sessionStorage.setItem("bearer_token", null);
+          // sessionStorage.setItem("bearer_token", null);
+          localStorage.setItem("bearer_token", null);
         });
     } else {
       setLogin(false);
@@ -145,16 +152,18 @@ const Login = () => {
                   Google
                 </button>
                 <FacebookLogin
-                  //  appId="2227338407463775"
+                   //appId="2227338407463775"
                   appId="665769488359790"
-                  autoLoad={true}
+                  autoLoad={false}
                   fields="name,email,picture"
                   scope="public_profile"
                   cssClass="my-facebook-button-class"
                   callback={responseFacebook}
-                  icon={<img src={facebook} alt="Google Icon" className="log-icon" /> }
+                  icon={<img src={facebook} alt="fb-Icon" className="log-icon" /> }
                   textButton="Facebook"
                 />
+
+
 
                 {/* <FacebookLogin
                   appId="665769488359790"

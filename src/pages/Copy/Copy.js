@@ -6,8 +6,8 @@ import "./copy.css";
 
 function Copy() {
   //encrypt local storage items
-  const account_id = sessionStorage.getItem("account_id");
-  const token = sessionStorage.getItem("bearer_token");
+  const account_id = localStorage.getItem("account_id");
+  const token = localStorage.getItem("bearer_token");
 
   // useStates
   const [campaignData, setCampaignData] = useState([]);
@@ -65,7 +65,7 @@ function Copy() {
 
   //get campaigns for user
   useEffect(() => {
-    console.log("gett")
+    // console.log("gett")
     if (token && token !== null && token!== "") {
       console.log("gett 1")
    
