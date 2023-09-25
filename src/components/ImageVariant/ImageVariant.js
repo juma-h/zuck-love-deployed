@@ -32,6 +32,23 @@ const ImageVariant = ({
   selectedAd,
   selectedMetric,
   now,
+
+  toggleDropdown,
+  isOpen,
+  handleOptionClick,
+  toggleAdsetDropdown,
+  handleAdsetOptions,
+  isAdsetOpen,
+  isAdOpen,
+  toggleAdDropdown,
+  handleAdOptions,
+  isAdsetLoading,
+  isAdLoading,
+  isCampaignLoading,
+  isMetricOpen,
+  toggleMetricDropwDown,
+  isMetricLoading,
+  handleMetricOptions,
 }) => {
   return (
     <div className="row variant-div">
@@ -44,74 +61,212 @@ const ImageVariant = ({
       </p>
       {/* select div below */}
       <div className="variant-select-div row">
-        <div className="col-md-7 mt-5">
-          <p className="select-label">Select the following details below:</p>
-          <div className="row ">
-            <div className="col-md-4">
-              <select
+      <div className="col-md-7 mt-5">
+        <p className="select-label">Select the following details below:</p>
+        <div className="row ">
+          <div className="col-md-4">
+            {/*             
+             <select
+              className="form-select select-css"
+              aria-label="Campaign"
+              onChange={campaignFn}
+              value={selectedCampaign}
+             
+            >
+              <option value="" disabled selected>
+                Choose Campaign
+              </option>
+              {campaignOptions}
+            </select>  */}
+            <div
+              className={`select-container ${isOpen ? "select-open" : ""}`}
+            >
+              <button
+                onClick={toggleDropdown}
                 className="form-select select-css"
-                aria-label="Campaign"
-                onChange={campaignFn}
-                value={selectedCampaign}
               >
-                <option value="" disabled selected>
-                  Choose Campaign
-                </option>
-                {campaignOptions}
-              </select>
+                {isCampaignLoading
+                  ? "Fetching..."
+                  : selectedCampaign || "Choose Campaign"}
+              </button>
+              {isOpen && (
+                <div>
+                  <ul className="list-css">
+                    {campaignOptions && campaignOptions.length > 0 ? (
+                      campaignOptions.map((option) => (
+                        <li
+                          key={option.id}
+                          onClick={() => handleOptionClick(option)}
+                          className={
+                            option.name === selectedCampaign ? "selected" : ""
+                          }
+                        >
+                          {option.name}
+                        </li>
+                      ))
+                    ) : (
+                      <li>No campaign to list</li>
+                    )}
+                  </ul>
+                </div>
+              )}
             </div>
-            <div className="col-md-4">
-              <select
-                class="form-select select-css"
-                aria-label="Adset"
-                onChange={adsetFn}
-                value={selectedAdset}
+          </div>
+
+          <div className="col-md-4">
+            {/* <select
+              class="form-select select-css"
+              aria-label="Adset"
+              onChange={adsetFn}
+              value={selectedAdset}
+            >
+              <option disabled selected value="">
+                {" "}
+                Choose Adset
+              </option>
+              {adsetOptions}
+            </select> */}
+            <div
+              className={`select-container ${
+                isAdsetOpen ? "select-open" : ""
+              }`}
+            >
+              <button
+                onClick={toggleAdsetDropdown}
+                className="form-select select-css"
               >
-                <option value="" disabled selected>
-                  {" "}
-                  Choose Adset
-                </option>
-                {adsetOptions}
-              </select>
+                {/* {selectedAdset ? selectedAdset : "Choose Adset"} */}
+                {isAdsetLoading
+                  ? "Fetching..."
+                  : selectedAdset || "Choose Adset"}
+              </button>
+              {isAdsetOpen && (
+                <div>
+                  <ul className="list-css">
+                    {adsetOptions && adsetOptions.length > 0 ? (
+                      adsetOptions.map((option) => (
+                        <li
+                          key={option.id}
+                          onClick={() => handleAdsetOptions(option)}
+                          className={
+                            option.name === selectedAdset ? "selected" : ""
+                          }
+                        >
+                          {option.name}
+                        </li>
+                      ))
+                    ) : (
+                      <li>No adset to list</li>
+                    )}
+                  </ul>
+                </div>
+              )}
             </div>
-            <div className="col-md-4">
-              <select
-                class="form-select select-css"
-                aria-label="Ad"
-                onChange={adFn}
-                value={selectedAd}
+          </div>
+          <div className="col-md-4">
+            {/* <select
+              class="form-select select-css"
+              aria-label="Ad"
+              onChange={adFn}
+              value={selectedAd}
+            >
+              <option disabled selected value="">
+                Choose Ad
+              </option>
+              {adOptions}
+            </select> */}
+            <div
+              className={`select-container ${isAdOpen ? "select-open" : ""}`}
+            >
+              <button
+                onClick={toggleAdDropdown}
+                className="form-select select-css"
               >
-                <option value="" disabled selected>
-                  Choose Ad
-                </option>
-                {adOptions}
-              </select>
+                {/* {selectedAd ? selectedAd : "Choose Adset"} */}
+                {isAdLoading ? "Fetching..." : selectedAd || "Choose Ad"}
+              </button>
+              {isAdOpen && (
+                <div>
+                  <ul className="list-css">
+                    {adOptions && adOptions.length > 0 ? (
+                      adOptions.map((option) => (
+                        <li
+                          key={option.id}
+                          onClick={() => handleAdOptions(option)}
+                          className={
+                            option.name === selectedAd ? "selected" : ""
+                          }
+                        >
+                          {option.name}
+                        </li>
+                      ))
+                    ) : (
+                      <li>No ad to list</li>
+                    )}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>
+      </div>
 
         <div className="col-md-1">
           <hr className="vertical-hr" />
         </div>
         <div className="col-md-4 mt-5">
-          <p className="select-label">Metric to optimize for:</p>
-          <select
-            class="form-select select-css"
-            aria-label="Metric"
-            onChange={metricFn}
-            value={selectedMetric}
+        <p className="select-label">Metric to optimize for:</p>
+        {/* <select
+          class="form-select select-css"
+          aria-label="Metric"
+          onChange={metricFn}
+          value={selectedMetric}
+        >
+          <option disabled selected value="">
+            Metric
+          </option>
+          {metricOptions}
+        </select> */}
+        <div
+          className={`select-container ${isMetricOpen ? "select-open" : ""}`}
+        >
+          <button
+            onClick={toggleMetricDropwDown}
+            className="form-select select-css"
           >
-            <option disabled selected value="">
-              Metric
-            </option>
-            {metricOptions}
-          </select>
-          <small className="helper-text">
-            <img src={CircleInfo} alt="" className="info-alt" /> <b>Tip:</b>{" "}
-            Prioritize events with higher frequency for faster statistical
-            significance.
-          </small>
+            {/* {selectedAd ? selectedAd : "Choose Adset"} */}
+            {isMetricLoading
+              ? "Fetching..."
+              : selectedMetric || "Choose Metric"}
+          </button>
+          {isMetricOpen && (
+            <div>
+              <ul className="list-css">
+                {metricOptions && metricOptions.length > 0 ? (
+                  metricOptions.map((option) => (
+                    <li
+                      key={option.id}
+                      onClick={() => handleMetricOptions(option)}
+                      className={
+                        option.name === selectedMetric ? "selected" : ""
+                      }
+                    >
+                      {option.name}
+                    </li>
+                  ))
+                ) : (
+                  <li>No metric to list</li>
+                )}
+              </ul>
+            </div>
+          )}
         </div>
+        <small className="helper-text">
+          <img src={CircleInfo} alt="" className="info-alt" /> <b>Tip:</b>{" "}
+          Prioritize events with higher frequency for faster statistical
+          significance.
+        </small>
+      </div>
 
         {/* percentage div below */}
         <div className="input-label">
