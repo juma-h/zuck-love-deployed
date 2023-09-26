@@ -18,15 +18,7 @@ const NavBar = () => {
   // const localAccessToken = localStorage.getItem("accessToken")
 
   //navigate to login if no accessToken is seen
-  useEffect(() => {
-    if (isLoggedIn) {
-      console.log("access token found");
-      navigate("/");
-    } else {
-      console.log("access token not found");
-      navigate("/login");
-    }
-  }, [isLoggedIn]);
+
 
   const handleLogOut = () => {
     sessionStorage.clear();
@@ -35,14 +27,13 @@ const NavBar = () => {
     localStorage.removeItem("account_id");
     localStorage.removeItem("fblst_665769488359790")
     localStorage.clear()
-    
-
-    navigate("/login");
+  
+    navigate("/");
     toast.success("User logged out!");
   };
 
   const handleLogin = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -83,7 +74,7 @@ const NavBar = () => {
                   margin: "0.5rem",
                   textDecoration: "none",
                 })}
-                to="/"
+                to="/copy"
               >
                 Copy
               </NavLink>

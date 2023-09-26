@@ -1,9 +1,9 @@
 import React from "react";
 import { Navbar, VideoDiv } from "../components";
-import "./Copy/copy.css";
+import "./zucklove.css";
 import { Outlet } from "react-router-dom";
 
-function Copy() {
+function ZuckLove() {
   return (
     <div className="container">
       <div className="curved-background"></div>
@@ -14,4 +14,4 @@ function Copy() {
   );
 }
 
-export default Copy;
+export default ZuckLove;

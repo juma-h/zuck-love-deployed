@@ -19,16 +19,16 @@ import { useState, useEffect } from "react";
 function App() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-      console.log("no token")
-      navigate("/login");
-    }else {
-      console.log("token found")
-      navigate("/")
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("accessToken");
+  //   if (!token) {
+  //     console.log("no token")
+  //     navigate("/login");
+  //   }else {
+  //     console.log("token found")
+  //     navigate("/")
+  //   }
+  // }, []);
 
   //const fbAccessToken = localStorage.getItem("accessToken");
   // console.log("accessToken", fbAccessToken);
@@ -92,9 +92,8 @@ function App() {
   // }, [fbAccessToken, clientId, clientSecret]);
 
   return (
-    // <Router>
-      <div className="App">
-        <Routes>
+    <div className="App">
+      {/* <Routes>
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<ZuckLove />}>
@@ -103,9 +102,19 @@ function App() {
             <Route path="/product" element={<Product />} />
             <Route path="/images" element={<ImageTest />} />
           </Route>
-        </Routes>
-      </div>
-    // </Router>
+        </Routes> */}
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/sign-up" element={<SignUp />} />
+
+        <Route path="/" element={<ZuckLove />}>
+          <Route path="/copy" element={<Copy />} />
+          <Route path="/headlines" element={<Headlines />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/images" element={<ImageTest />} />
+        </Route>
+      </Routes>
+    </div>
   );
 }
 

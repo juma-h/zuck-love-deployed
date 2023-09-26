@@ -23,11 +23,31 @@ const Login = () => {
     "pGBkfeGYuF7W4Z2C73FH8dRyFnPuIowdJptruKV6VpBH79oaVRrGdIWXEWWmbyMGFB5mWHnTpIzrDhZSgJq2obrc1GVKuRZE6WOregecNXlUR6xLOsD1ejFSw6HVWOPV"
   );
 
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    sessionStorage.getItem("accessToken") !== null ||
+      localStorage.getItem("accessToken") !== null
+  );
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      console.log("access token found");
+      navigate("/copy");
+    } else {
+      console.log("access token not found");
+      navigate("/");
+    }
+  }, [isLoggedIn]);
+
+  console.log(isLoggedIn);
+
   const navigate = useNavigate();
 
   const signUp = () => {
     navigate("/sign-up");
   };
+
+
+
 
   const responseFacebook = (response) => {
     console.log("response", response);
@@ -90,7 +110,7 @@ const Login = () => {
             localStorage.setItem("account_id", "896631874812550");
 
             console.log("login");
-            navigate("/");
+            navigate("/copy");
             toast.success("Login successful!");
             setLogin(true);
           }
@@ -104,6 +124,8 @@ const Login = () => {
       setLogin(false);
     }
   };
+
+
 
   return (
     <>
