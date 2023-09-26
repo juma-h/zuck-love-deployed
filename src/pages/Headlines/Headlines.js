@@ -24,6 +24,8 @@ function Headlines() {
 
   const [metricData, setMetricData] = useState([]);
   const [selectedMetric, setSelectedMetric] = useState("");
+  const [selectedMetricName, setSelectedMtericName]= useState("")
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [isAdsetLoading, setIsAdsetLoading] = useState(false);
@@ -80,6 +82,7 @@ function Headlines() {
   const handleMetricClick = (option) => {
     setSelectedMetric(option.name);
     console.log("Selected metric Name:", option.field_name);
+    setSelectedMtericName(option.field_name)
 
     setIsMetricOpen(false);
   };
@@ -479,7 +482,7 @@ function Headlines() {
       return;
     }
 
-    if (!selectedMetric) {
+    if (!selectedMetricName) {
       toast.warning("Please select a metric to optimize");
       return;
     }
@@ -496,7 +499,7 @@ function Headlines() {
       ad_creative_id: adcreativeId,
       ad_name: adName,
       new_ads_headline: tabContents[activeTab],
-      metric_to_optimize: selectedMetric,
+      metric_to_optimize: selectedMetricName,
     });
 
     let requestOptions = {

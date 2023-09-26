@@ -73,6 +73,25 @@ function ImageTest() {
     }))
   );
 
+  // const tabs = ["Variation 1", "Variation 2", "Variation 3", "Variation 4"];
+
+// const imageUrls = [
+//   "https://cdn.pixabay.com/photo/2015/03/10/17/23/youtube-667451_1280.png",
+//   "https://sitechecker.pro/wp-content/uploads/2023/05/URL-meaning.jpg",
+//   "https://s3.amazonaws.com/images.seroundtable.com/google-submit-url-1516800645.jpg",
+//   // Add the fourth image URL here
+// ];
+
+// const [tabContents, setTabContents] = useState(
+//   tabs.map((tab, index) => ({
+//     title: tab,
+//     content: imageUrls[index] || "", // Use the corresponding image URL or an empty string if not available
+//   }))
+// );
+
+
+  // const [tabContents, setTabContents]= useState([])
+
   // Cache to store fetched data for each tab
   const [dataCache, setDataCache] = useState(Array(tabs.length).fill(null));
 
@@ -632,6 +651,11 @@ function ImageTest() {
                 setDataCache(updatedTabContents);
 
                 setIsLoading(false);
+              }else if(   status === 200 &&
+                result.data.status === "failed"){
+                  setIsLoading(false)
+                  toast.error("Error generating images , try again")
+
               }
             })
             .catch((error) => {
@@ -709,7 +733,7 @@ function ImageTest() {
     let raw = JSON.stringify({
       ad_creative_id: adcreativeId,
       ad_name: adName,
-      new_ads_image_url: tabContents[activeTab],
+      new_ads_image_url: tabContents[activeTab].content,
       metric_to_optimize: selectedMetric,
     });
 
@@ -728,6 +752,7 @@ function ImageTest() {
         if (response.ok) {
           return { status };
         } else {
+          setIsLoading(false)
           throw new Error(`Request failed with status: ${status}`);
         }
       })

@@ -229,41 +229,51 @@ const ImageNavTabs = ({
         ) : (
           // Content display when not loading
           <div className="tab-content-image">
-            {tabContents && tabContents.length > 0 && tabContents[activeTab] ? (
-              typeof tabContents[activeTab].content === "string" ? (
-                tabContents[activeTab].content.endsWith(".png") ||
-                tabContents[activeTab].content.endsWith(".jpg") ||
-                tabContents[activeTab].content.endsWith(".jpeg") ||
-                tabContents[activeTab].content.endsWith(".gif") ||
-                tabContents[activeTab].content.endsWith(".svg") ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: "1em",
-                      height: "100%",
-                    }}
-                  >
-                    <img
-                      src={tabContents[activeTab].content}
-                      alt=""
+            {tabContents && tabContents.length > 0 ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: "1em",
+                  height: "100%",
+                }}
+              >
+                {tabContents[activeTab] && typeof tabContents[activeTab].content === "string" ? (
+                  tabContents[activeTab].content.endsWith(".png") ||
+                  tabContents[activeTab].content.endsWith(".jpg") ||
+                  tabContents[activeTab].content.endsWith(".jpeg") ||
+                  tabContents[activeTab].content.endsWith(".gif") ||
+                  tabContents[activeTab].content.endsWith(".svg") ? (
+                    <div
                       style={{
-                        width: "700px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        padding: "1em",
                         height: "100%",
-                        maxWidth: "100%",
                       }}
-                      onLoad={() => {
-                        console.log("Loaded img tag for tab " + activeTab);
-                      }}
-                    />
-                  </div>
+                    >
+                      <img
+                        src={tabContents[activeTab].content}
+                        alt=""
+                        style={{
+                          width: "700px",
+                          height: "100%",
+                          maxWidth: "100%",
+                        }}
+                        onLoad={() => {
+                          console.log("Loaded img tag for tab " + activeTab);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    "Nothing to show"
+                  )
                 ) : (
-                  "Nothing to show"
-                )
-              ) : (
-                "Click to fetch variations after getting image id"
-              )
+                  "Click to fetch variations after getting image id"
+                )}
+              </div>
             ) : (
               <p>
                 {activeTab === 0
@@ -279,5 +289,7 @@ const ImageNavTabs = ({
 };
 
 export default ImageNavTabs;
+
+
 
 
