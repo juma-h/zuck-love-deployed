@@ -16,7 +16,7 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const login = ()=>{
-    navigate("/login")
+    navigate("/")
   }
   return (
     <>
@@ -57,7 +57,7 @@ const SignUp = () => {
           {/* login inputs */}
 
           <div className="col-7 right">
-            <div className="right_inner-cont d-flex flex-column m-4 p-5">
+            <div className="right_inner-cont d-flex flex-column">
               <h5>Sign Up</h5>
               <div className="sign-in-btns">
                 <button className="btn btn-light ">
