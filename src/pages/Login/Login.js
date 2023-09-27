@@ -134,7 +134,7 @@ const Login = () => {
   return (
     <>
       <div className="container-fluid login-page">
-        <div className="row landingPage">
+        <div className="row">
           <div className="col-5 left">
             <div className="d-flex flex-row justify-content-between  align-items-center top">
               <div className="logo-left">
@@ -170,12 +170,12 @@ const Login = () => {
           {/* login inputs */}
 
           <div className="col-7 right">
-            <div className="right_inner-cont d-flex flex-column  m-5 p-5">
+            <div className="right_inner-cont d-flex flex-column ">
               <h5>Sign In</h5>
               <div className="sign-in-btns">
                 <button className="btn btn-light ">
                   <img src={google} alt="Google Icon" className="log-icon" />
-                  Google
+                  <span class="btn-text">Google</span>
                 </button>
                 <FacebookLogin
                    //appId="2227338407463775"
@@ -186,7 +186,7 @@ const Login = () => {
                   cssClass="my-facebook-button-class"
                   callback={responseFacebook}
                   icon={<img src={facebook} alt="fb-Icon" className="log-icon" /> }
-                  textButton="Facebook"
+                  textButton={<span class="btn-text">Facebook</span>}
                 />
 
 
@@ -220,7 +220,7 @@ const Login = () => {
               <h6 className="signin-h2">
                 <span>OR SIGN IN WITH</span>
               </h6>
-              <div className="col-12">
+              <div className="col-12 col-md-12 col-sm-12">
                 <div className="m-3 ">
                   <label
                     for="exampleInputEmail1"

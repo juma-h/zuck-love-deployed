@@ -198,6 +198,8 @@ export const fetchMetrics = (
     });
 };
 
+
+// ---- unusable ----
 export const fetchImagine = (token, buttonState, adBody, imageIdRef, toast) => {
   if (buttonState && adBody) {
     const myHeaders = new Headers();

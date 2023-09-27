@@ -3,11 +3,10 @@
   /* border: solid black; */
 }
 
+/* left container  */
 .left {
   background-color: #417ef2;
   height: 100vh;
-  /* 
-  border: solid green; */
   display: grid;
   grid-template-rows: 10% 50% 30%;
   gap: 2em;
@@ -47,9 +46,16 @@
   text-align: left;
 }
 
+/* right -container */
+
 .right {
   height: 100vh;
   background-color: #f0f2fa;
+}
+
+.right_inner-cont{
+  margin: 3em;
+  padding:3em;
 }
 
 .vector-image {
@@ -220,3 +226,96 @@
   border: solid 0.5px lightgrey;
   margin: 5px;
 }
+
+
+/* responsiveness  */
+/* Mobile devices (up to 767px wide) */
+@media (max-width: 767px) {
+  .container-fluid {
+    margin: 0;
+    padding: 0;
+   
+  }
+
+  .left {
+    display: none;
+  }
+
+  .right {
+    width: 100%;
+    height: 100%;
+    padding: none;
+  }
+
+  .right_inner-cont{
+   height: 100%;
+   margin: 1em;
+  padding: 2em;
+  }
+
+
+  /* buttons responsive css */
+  .sign-in-btns {
+    margin: 10px;
+    padding: 1em;
+    /* width: 90%; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center; 
+    gap: 10px;
+  }
+
+  .sign-in-btns > button {
+    padding: 1em;
+    border-radius: 12px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+  }
+  
+  .btn-text{
+    display: none;
+  }
+
+  .my-facebook-button-class{
+    padding: 1em;
+    border-radius: 12px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+  }
+
+  
+  .login-btn {
+    padding: 0.5em;
+    font-size: 16px;
+  }
+  
+  .create-btn {
+    padding: 0.5em;
+    font-size: 16px;
+
+  }
+ 
+
+}
+
+/* Tablets (768px to 1023px wide) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Apply styles for tablets */
+  .container-fluid { 
+    margin: 0;
+    padding: 0;
+  
+  }
+
+  .left {
+   display: none;
+  }
+
+  .right {
+    width: 100%;
+    padding: 1em;
+}
+}
+
