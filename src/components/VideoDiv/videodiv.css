@@ -18,14 +18,14 @@
   font-weight: 400;
 }
 
-.video-buttons {
+/* .video-buttons {
   display: flex;
   flex-direction: row;
   justify-content: center;
 
   gap: 20px;
   align-items: center;
-}
+} */
 
 .video-iframe > iframe {
   border-radius: 8px;
@@ -33,5 +33,34 @@
 
 .number-input {
   color: green;
-  border: solid 3px green;
+  /* border: solid 3px green; */
+}
+
+
+.video-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Styles for smaller screens (e.g., mobile) */
+@media (max-width: 768px) {
+  .video-h {
+    font-size: 2em; /* Adjust font size for smaller screens */
+  }
+
+  .video-p {
+    font-size: 16px; /* Adjust font size for smaller screens */
+  }
+
+  .video-p2 {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+
+  .video-buttons {
+    flex-direction: column; /* Stack buttons in a column for smaller screens */
+    gap: 10px; /* Adjust gap between buttons */
+  }
 }
