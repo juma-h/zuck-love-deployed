@@ -61,19 +61,7 @@ const VariantDiv = ({
           <p className="select-label">Select the following details below:</p>
           <div className="row ">
             <div className="col-md-4">
-              {/*             
-               <select
-                className="form-select select-css"
-                aria-label="Campaign"
-                onChange={campaignFn}
-                value={selectedCampaign}
-               
-              >
-                <option value="" disabled selected>
-                  Choose Campaign
-                </option>
-                {campaignOptions}
-              </select>  */}
+        
               <div
                 className={`select-container ${isOpen ? "select-open" : ""}`}
               >
@@ -110,18 +98,7 @@ const VariantDiv = ({
             </div>
 
             <div className="col-md-4">
-              {/* <select
-                class="form-select select-css"
-                aria-label="Adset"
-                onChange={adsetFn}
-                value={selectedAdset}
-              >
-                <option disabled selected value="">
-                  {" "}
-                  Choose Adset
-                </option>
-                {adsetOptions}
-              </select> */}
+ 
               <div
                 className={`select-container ${
                   isAdsetOpen ? "select-open" : ""
@@ -160,17 +137,7 @@ const VariantDiv = ({
               </div>
             </div>
             <div className="col-md-4">
-              {/* <select
-                class="form-select select-css"
-                aria-label="Ad"
-                onChange={adFn}
-                value={selectedAd}
-              >
-                <option disabled selected value="">
-                  Choose Ad
-                </option>
-                {adOptions}
-              </select> */}
+
               <div
                 className={`select-container ${isAdOpen ? "select-open" : ""}`}
               >
@@ -212,17 +179,7 @@ const VariantDiv = ({
         </div>
         <div className="col-md-4 mt-5">
           <p className="select-label">Metric to optimize for:</p>
-          {/* <select
-            class="form-select select-css"
-            aria-label="Metric"
-            onChange={metricFn}
-            value={selectedMetric}
-          >
-            <option disabled selected value="">
-              Metric
-            </option>
-            {metricOptions}
-          </select> */}
+     
           <div
             className={`select-container ${isMetricOpen ? "select-open" : ""}`}
           >

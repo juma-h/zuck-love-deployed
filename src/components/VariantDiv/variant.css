@@ -5,6 +5,7 @@
   font-weight: 600;
   /* background-color: #f6faff; */
 }
+
 .variant-div {
   margin: 4em;
 }
@@ -36,14 +37,6 @@
   text-align: left;
 }
 
-/* select css */
-/* .select-css {
-  border: solid 2px var(--p-color);
-  color: var(--p-color);
-  padding: 5px;
-  cursor: pointer;
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='%23ADD8E6' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m2 5 6 6 6-6'/></svg>");
-} */
 .select-css {
   border: solid 2px var(--p-color);
   color: var(--p-color);
@@ -90,15 +83,6 @@
   color: #fff;
 }
 
-/* .select-css option {
-  color: var(--p-color);
-  padding: 8px;
-  border-radius: 10px;
-  width: 200px; 
-  margin-top: 1em;
-} */
-
-/*  */
 
 .input-label {
   margin-top: 10px;
@@ -136,4 +120,74 @@
 
 .adorn-input {
   color: var(--p-color);
+}
+
+
+/* responsiveness  */
+/* Mobile devices (up to 767px wide) */
+@media (max-width: 767px) {
+  .variant-div {
+    margin: 2em;
+  }
+
+  .variant-select-div {
+    padding: 0.5em;
+  }
+  
+  .select-container {
+    margin-bottom: 0.5em;
+  }
+
+  .select-css {
+    width: 100%;
+    padding: 8px;
+  }
+
+  .vertical-hr {
+    display: none;
+  }
+
+  .input-label {
+    margin-top: 0.5em;
+  }
+
+  .input-label > h5 {
+    font-size: 18px; 
+  }
+
+  .helper-text {
+    font-size: 12px; 
+  }
+
+  .launch-btn{
+    width:100%;
+  }
+}
+/* Tablets (768px to 1023px wide) */
+/* For screens from 768px to 1023px wide (Tablets) */
+@media (min-width: 768px) and (max-width: 1023px) {
+
+
+  .variant-div > h5 {
+    font-size: 2em; 
+  }
+
+  .variant-div > p {
+    font-size: 14px; 
+  }
+
+  .variant-select-div {
+    margin: 2em;
+  }
+
+  .select-label {
+    font-size: 18px; 
+  }
+
+  .select-css {
+    padding: 3px; 
+    border-radius: 4px;
+  }
+
+
 }
