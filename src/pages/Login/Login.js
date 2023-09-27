@@ -103,13 +103,17 @@ const Login = () => {
           ) {
             // Assuming the response contains an access_token
             const accessToken = data.access_token;
+            const expiryTime = data.expires_in;
+            const refreshToken = data.refresh_token;
             // sessionStorage.setItem("bearer_token", accessToken);
             // sessionStorage.setItem("account_id", "896631874812550");
             // -------------
             localStorage.setItem("bearer_token", accessToken);
+            localStorage.setItem("expiry_time", expiryTime);
+            localStorage.setItem("refresh_token", refreshToken);
             localStorage.setItem("account_id", "896631874812550");
 
-            console.log("login");
+            console.log("Done setting");
             navigate("/copy");
             toast.success("Login successful!");
             setLogin(true);

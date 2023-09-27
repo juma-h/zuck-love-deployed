@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { HeadlinesVariant } from "../../components";
-import { extractNumbersFromString } from "../../utils/utils";
+import { fetchCampaigns, fetchMetrics , fetchAdsets, fetchAds} from "../api";
 import { toast } from "react-toastify";
 // import "./copy.css";
 
@@ -30,7 +30,7 @@ function Headlines() {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdsetLoading, setIsAdsetLoading] = useState(false);
   const [isAdLoading, setIsAdLoading] = useState(false);
-  const [isCampaignLoading, setIsCamapaignLoading] = useState(false);
+  const [isCampaignLoading, setIsCampaignLoading] = useState(false);
   const [isMetricLoading, setIsMetricLoading] = useState(false);
 
   const [adcreativeId, setAdCreativeId] = useState("");
@@ -113,290 +113,23 @@ function Headlines() {
 
   // fetch functions
 
-  const fetchCampaigns = () => {
-    if (token && token !== null && token !== "") {
-      setIsCamapaignLoading(true);
-      console.log("gett 1");
-
-      let myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${token}`);
-
-      let requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      fetch(`/abtesting/campaigns/?account_id=${account_id}`, requestOptions)
-        .then((response) => {
-          const status = response.status;
-          return response.json().then((result) => {
-            return { status, result };
-          });
-        })
-        .then(({ result, status }) => {
-          console.log(result);
-          if (status === 200 && result.length > 0) {
-            setIsCamapaignLoading(false);
-            setCampaignData(result);
-            setIsOpen(true);
-          }
-        })
-        .catch((error) => {
-          console.log("error", error);
-          setIsCamapaignLoading(false);
-        });
-    }
+  const handleFetchCampaigns = () => {
+    fetchCampaigns(token, account_id, setIsCampaignLoading, setCampaignData, setIsOpen);
   };
 
-  const fetchAdsets = () => {
-    console.log("clicked");
+  const handleFetchAdsets = ()=>{
+    fetchAdsets(token,selectedCampaignId,account_id,setIsAdsetLoading, setAdsetData,setIsAdsetOpen,toast)
 
-    if (!selectedCampaignId) {
-      toast.warning("Kindly select a campaign first");
-      return;
-    }
+  }
 
-    if (selectedCampaignId && selectedCampaignId !== null) {
-      setIsAdsetLoading(true);
-      let myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${token}`);
+  const handleFetchAds  = ()=>{
+    fetchAds( token, selectedAdsetId,account_id,setIsAdLoading,setAdData,setAdCreativeId,setIsAdOpen,toast)
 
-      let requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
+  }
 
-      fetch(
-        `/abtesting/adsets/?account_id=${account_id}&campaign_id=${selectedCampaignId}`,
-        requestOptions
-      )
-        .then((response) => {
-          const status = response.status;
-          return response.json().then((result) => {
-            return { status, result };
-          });
-        })
-        .then(({ result, status }) => {
-          // console.log(result);
-          if (status === 200 && result.length > 0) {
-            setIsAdsetLoading(false);
-            setAdsetData(result);
-            setIsAdsetOpen(true);
-          }
-        })
-        .catch((error) => {
-          console.log("error", error);
-          setIsAdsetLoading(false);
-        });
-    }
-  };
-
-  const fetchAds = () => {
-    if (!selectedAdsetId) {
-      toast.warning("Kindly choose an adset first");
-      return;
-    }
-
-    if (selectedAdsetId && selectedAdsetId !== null) {
-      setIsAdLoading(true);
-      let myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${token}`);
-
-      let requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      fetch(
-        `/abtesting/ads/?account_id=${account_id}&adset_id=${selectedAdsetId}`,
-        requestOptions
-      )
-        .then((response) => {
-          const status = response.status;
-          return response.json().then((result) => {
-            return { status, result };
-          });
-        })
-        .then(({ result, status }) => {
-          console.log("ads response", result);
-          if (status === 200 && result.length > 0) {
-            setIsAdLoading(false);
-            const adCreativeId = result[0].ad_creative.id;
-            // Set the ad data and ad creative id
-            setAdData(result);
-            setAdCreativeId(adCreativeId);
-            setIsAdOpen(true);
-            // console.log("ad id", adCreativeId);
-          }
-        })
-        .catch((error) => {
-          console.log("error", error);
-          setIsAdLoading(false);
-        });
-    }
-  };
-
-  const fetchMetrics = () => {
-    setIsMetricLoading(true);
-
-    let myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${token}`);
-
-    let requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    fetch("/abtesting/metrics/", requestOptions)
-      .then((response) => {
-        const status = response.status;
-        return response.json().then((result) => {
-          return { status, result };
-        });
-      })
-      .then(({ result, status }) => {
-        // console.log(result);
-        if (status === 200 && result.length > 0) {
-          console.log("metrics::", result);
-          setMetricData(result);
-          setIsMetricLoading(false);
-          setIsMetricOpen(true);
-        }
-      })
-      .catch((error) => {
-        console.log("error", error);
-        setIsMetricLoading(false);
-      });
-  };
-
-  //get campaigns for user
-  // useEffect(() => {
-  //   // console.log("gett")
-  //   if (token && token !== null && token!== "") {
-  //     console.log("gett 1")
-
-  //     let myHeaders = new Headers();
-  //     myHeaders.append("Authorization", `Bearer ${token}`);
-
-  //     let requestOptions = {
-  //       method: "GET",
-  //       headers: myHeaders,
-  //       redirect: "follow",
-  //     };
-
-  //     fetch(`/abtesting/campaigns/?account_id=${account_id}`, requestOptions)
-  //       .then((response) => {
-  //         const status = response.status;
-  //         return response.json().then((result) => {
-  //           return { status, result };
-  //         });
-  //       })
-  //       .then(({ result, status }) => {
-  //         console.log(result);
-  //         if (status === 200 && result.length > 0) setCampaignData(result);
-  //       })
-  //       .catch((error) => console.log("error", error));
-  //   }
-  // }, [account_id, token]);
-
-  // get adset
-  // useEffect(() => {
-  //   if (selectedCampaign && selectedCampaign !== null) {
-  //     let myHeaders = new Headers();
-  //     myHeaders.append("Authorization", `Bearer ${token}`);
-
-  //     let requestOptions = {
-  //       method: "GET",
-  //       headers: myHeaders,
-  //       redirect: "follow",
-  //     };
-
-  //     fetch(
-  //       `/abtesting/adsets/?account_id=${account_id}&campaign_id=${selectedCampaign}`,
-  //       requestOptions
-  //     )
-  //       .then((response) => {
-  //         const status = response.status;
-  //         return response.json().then((result) => {
-  //           return { status, result };
-  //         });
-  //       })
-  //       .then(({ result, status }) => {
-  //         // console.log(result);
-  //         if (status === 200 && result.length > 0) setAdsetData(result);
-  //       })
-  //       .catch((error) => console.log("error", error));
-  //   }
-  // }, [selectedCampaign, token, account_id]);
-
-  // get ad
-  // useEffect(() => {
-  //   if (selectedAdsetId && selectedAdsetId !== null) {
-  //     let myHeaders = new Headers();
-  //     myHeaders.append("Authorization", `Bearer ${token}`);
-
-  //     let requestOptions = {
-  //       method: "GET",
-  //       headers: myHeaders,
-  //       redirect: "follow",
-  //     };
-
-  //     fetch(
-  //       `/abtesting/ads/?account_id=${account_id}&adset_id=${selectedAdsetId}`,
-  //       requestOptions
-  //     )
-  //       .then((response) => {
-  //         const status = response.status;
-  //         return response.json().then((result) => {
-  //           return { status, result };
-  //         });
-  //       })
-  //       .then(({ result, status }) => {
-  //         console.log("ads response", result);
-  //         if (status === 200 && result.length > 0) {
-  //           const adCreativeId = result[0].ad_creative.id;
-  //           // Set the ad data and ad creative id
-
-  //           setAdData(result);
-  //           setAdCreativeId(adCreativeId);
-  //           // console.log("ad id", adCreativeId);
-  //         }
-  //       })
-  //       .catch((error) => console.log("error", error));
-  //   }
-  // }, [selectedAdset, token, account_id]);
-
-  //get metrics
-  // useEffect(() => {
-  //   let myHeaders = new Headers();
-  //   myHeaders.append("Authorization", `Bearer ${token}`);
-
-  //   let requestOptions = {
-  //     method: "GET",
-  //     headers: myHeaders,
-  //     redirect: "follow",
-  //   };
-
-  //   fetch("/abtesting/metrics/", requestOptions)
-  //     .then((response) => {
-  //       const status = response.status;
-  //       return response.json().then((result) => {
-  //         return { status, result };
-  //       });
-  //     })
-  //     .then(({ result, status }) => {
-  //       // console.log(result);
-  //       if (status === 200 && result.length > 0) {
-  //         console.log("metrics::", result);
-  //         setMetricData(result);
-  //       }
-  //     })
-  //     .catch((error) => console.log("error", error));
-  // }, [token]);
+  const handleFetchMetrics = ()=>{
+    fetchMetrics(token,setIsMetricLoading,setMetricData,setIsMetricOpen)
+  }
 
   const clearFields = () => {
     setSelectedCampaign("");
@@ -542,78 +275,28 @@ function Headlines() {
         isOpen={isOpen}
         isCampaignLoading={isCampaignLoading}
         handleOptionClick={handleCampignOptionClick}
-        toggleDropdown={fetchCampaigns}
+        toggleDropdown={handleFetchCampaigns}
         campaignOptions={campaignData}
         selectedCampaign={selectedCampaign}
         isAdsetLoading={isAdsetLoading}
-        toggleAdsetDropdown={fetchAdsets}
+        toggleAdsetDropdown={handleFetchAdsets}
         selectedAdset={selectedAdset}
         adsetOptions={adsetData}
         handleAdsetOptions={handleAdsetClick}
         isAdsetOpen={isAdsetOpen}
         isAdLoading={isAdLoading}
         isAdOpen={isAdOpen}
-        toggleAdDropdown={fetchAds}
+        toggleAdDropdown={handleFetchAds}
         handleAdOptions={handleAdClick}
         adOptions={adData}
-        selectedAd={selectedAd}
-        // campaignOptions={
-        //   campaignData && campaignData.length > 0 ? (
-        //     campaignData.map((campaign) => (
-        //       <>
-        //         <option
-        //           key={campaign.id}
-        //           value={campaign.name + " - " + campaign.id}
-        //         >
-        //           {campaign.name}
-        //         </option>
-        //       </>
-        //     ))
-        //   ) : (
-        //     <option value="">No campaign data available</option>
-        //   )
-        // }
-        // selectedCampaign={selectedCampaign}
-        // campaignFn={handleSelectCampaign}
-        // adsetOptions={
-        //   adsetData && adsetData.length > 0 ? (
-        //     adsetData.map((adset) => (
-        //       <>
-        //         <option key={adset.id} value={adset.name + " - " + adset.id}>
-        //           {adset.name}
-        //         </option>
-        //       </>
-        //     ))
-        //   ) : (
-        //     <option value="">No adset data available</option>
-        //   )
-        // }
-        // selectedAdset={selectedAdset}
-        // adsetFn={handleSelectAdset}
-        // adFn={handleSelectAd}
-
+        selectedAd={selectedAd} 
         isMetricOpen={isMetricOpen}
-        toggleMetricDropwDown={fetchMetrics}
+        toggleMetricDropwDown={handleFetchMetrics}
         isMetricLoading={isMetricLoading}
         handleMetricOptions={handleMetricClick}
         metricOptions={metricData}
         selectedMetric={selectedMetric}
-        // metricFn={handleSelectMetric}
-        // metricOptions={
-        //   metricData && metricData.length > 0 ? (
-        //     metricData.map((metric) => (
-        //       <>
-        //         <option key={metric.id} value={metric.field_name}>
-        //           {metric.name}
-        //         </option>
-        //       </>
-        //     ))
-        //   ) : (
-        //     <option value="">No metric data available</option>
-        //   )
-        // }
         tabs={tabs}
-        // tabContents={tabContents}
         handleTabClick={handleTabClick}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
