@@ -5,12 +5,16 @@ import { Outlet } from "react-router-dom";
 
 function ZuckLove() {
   return (
-    <div className="container">
+    <>
+     <Navbar />
+        <div className="container">
       <div className="curved-background"></div>
-      <Navbar />
+     
       <VideoDiv />
       <Outlet />
     </div>
+    </>
+
   );
 }
 
