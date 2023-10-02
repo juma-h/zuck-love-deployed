@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import google from "../../assets/icons8-google-48.png";
 import quote from "../../assets/Vector (1).png";
 import { useNavigate } from "react-router-dom";
- import FacebookLogin from "react-facebook-login";
+import FacebookLogin from "react-facebook-login";
 //import FacebookLogin from "@greatsumini/react-facebook-login";
 
 const Login = () => {
@@ -46,15 +46,12 @@ const Login = () => {
     navigate("/sign-up");
   };
 
-
-
-
   const responseFacebook = (response) => {
     console.log("response", response);
 
     // Login failed
     if (response.status === "unknown") {
-      alert("Login failed!");
+      // alert("Login failed!");
       toast.error("Login failed!");
       setLogin(false);
       return false;
@@ -64,7 +61,6 @@ const Login = () => {
     // setPicture(response.picture.data.url);
 
     if (response.accessToken && response.accessToken !== null) {
-
       console.log("yes");
 
       setAccessToken(response.accessToken);
@@ -73,7 +69,7 @@ const Login = () => {
 
       const fbAccessToken = response.accessToken;
       const useToken =
-        "EAAJdg4nbIW4BO5ZBiyhONL18Sf4tCB5f7kZBteUooQAa7sAgFgoEp9FmgIyxYZCZBv0fYwDkfr3x3dFKHxbhoVCBDCPbIufasIuQtg1RjqeAN9zizopNv0UmhcZAGOJIa02601ykV35X0AdafmOVjb2b7gTocAJ0fvalCraGizU0tOlPCTxzZALBX0";
+        "EAAJdg4nbIW4BO60tbKZBuCRZC2UuWp4kSp1S7EZAX9ftQ1h6B1zhyPY1wXw607NRZAU4hCfnVPFwGU4OX2A53v0CR3swQnZAN11H87ZCKvtt9khzMI0F5a3ZBswvM0zDXxUKpZAZCN1Eq7utvdzIZC78V6CURtncEk2lwzZA9MlHWmA7WGBNZBBY5AThRmnPsQZDZD";
 
       // Prepare the request data
       const formData = new FormData();
@@ -131,6 +127,8 @@ const Login = () => {
 
 
 
+
+
   return (
     <>
       <div className="container-fluid login-page">
@@ -154,10 +152,10 @@ const Login = () => {
               </div>
               <div className="col-md-6 d-flex justify-content-end">
                 <button className="arrow-btn">
-                  <i class="fa-solid fa-arrow-left"></i>
+                  <i className="fa-solid fa-arrow-left"></i>
                 </button>
                 <button className="arrow-btn">
-                  <i class="fa-solid fa-arrow-right"></i>
+                  <i className="fa-solid fa-arrow-right"></i>
                 </button>
               </div>
 
@@ -175,21 +173,21 @@ const Login = () => {
               <div className="sign-in-btns">
                 <button className="btn btn-light ">
                   <img src={google} alt="Google Icon" className="log-icon" />
-                  <span class="btn-text">Google</span>
+                  <span className="btn-text">Google</span>
                 </button>
                 <FacebookLogin
-                   //appId="2227338407463775"
+                  //appId="2227338407463775"
                   appId="665769488359790"
                   autoLoad={false}
                   fields="name,email,picture"
                   scope="public_profile"
                   cssClass="my-facebook-button-class"
                   callback={responseFacebook}
-                  icon={<img src={facebook} alt="fb-Icon" className="log-icon" /> }
-                  textButton={<span class="btn-text">Facebook</span>}
+                  icon={
+                    <img src={facebook} alt="fb-Icon" className="log-icon" />
+                  }
+                  textButton={<span className="btn-text">Facebook</span>}
                 />
-
-
 
                 {/* <FacebookLogin
                   appId="665769488359790"
@@ -206,7 +204,7 @@ const Login = () => {
                     margin: "5px"
                   }}
                   
-                  // cssClass="my-facebook-button-class"
+                  // cssClass="my-facebook-button-className"
                   icon={
                     <img
                       src={facebook}
@@ -223,7 +221,7 @@ const Login = () => {
               <div className="col-12 col-md-12 col-sm-12">
                 <div className="m-3 ">
                   <label
-                    for="exampleInputEmail1"
+                    htmlFor="exampleInputEmail1"
                     className="form-label label-signin"
                   >
                     Username
@@ -264,7 +262,7 @@ const Login = () => {
                     </span>
                   </div>
                 </div>
-                <a className="forgot-password" href>
+                <a className="forgot-password" href="">
                   Forgot password?
                 </a>
               </div>
