@@ -59,8 +59,8 @@ const VariantDiv = ({
       <div className="variant-select-div row">
         <div className="col-md-7 mt-5">
           <p className="select-label">Select the following details below:</p>
-          <div className="row ">
-            <div className="col-md-4">
+          <div className="row variant-selects">
+            <div className="col-md-4 ">
         
               <div
                 className={`select-container ${isOpen ? "select-open" : ""}`}

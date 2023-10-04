@@ -167,18 +167,34 @@
 /* For screens from 768px to 1023px wide (Tablets) */
 @media (min-width: 768px) and (max-width: 1023px) {
 
-
   .variant-div > h5 {
     font-size: 2em; 
+  }
+
+  .vertical-hr{
+    display : none;
   }
 
   .variant-div > p {
     font-size: 14px; 
   }
 
+  .variant-selects{
+    /* border: solid brown; */
+    display: flex ;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .variant-selects .col-md-4{
+  width: 100%;
+  margin : 5px;
+  }
+
+
   .variant-select-div {
     margin: 2em;
   }
+
 
   .select-label {
     font-size: 18px; 
@@ -189,5 +205,18 @@
     border-radius: 4px;
   }
 
+  .input-label{
+    font-size: 12px;
+    margin-top: 10px;
+  }
+
+  .input-label > h5{
+    font-size: 16px;
+
+    
+  }
+
 
 }
+
+
