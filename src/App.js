@@ -9,88 +9,95 @@ import {
   SignUp,
 } from "./pages";
 import "./App.css";
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef , useState} from "react";
 
 function App() {
-  const navigate = useNavigate();
-  console.log("app js");
 
-  const getTime = localStorage.getItem("expiry_time");
-  const refreshToken = localStorage.getItem("refresh_token");
-  const [clientId, setClientId] = useState(
-    "xDtdNsu7yFQ6QKuRyToKsMgbjZkxo2Xn8qLX1LMF"
-  );
-  const [clientSecret, setClientSecret] = useState(
-    "pGBkfeGYuF7W4Z2C73FH8dRyFnPuIowdJptruKV6VpBH79oaVRrGdIWXEWWmbyMGFB5mWHnTpIzrDhZSgJq2obrc1GVKuRZE6WOregecNXlUR6xLOsD1ejFSw6HVWOPV"
-  );
+  // console.log("app js");
+//   const intervalRef = useRef();
 
-  const refreshTokenAPI = () => {
+
+
+//   const getTime = localStorage.getItem("expiry_time");
+
+//   console.log("time",getTime)
+//   const refreshToken = localStorage.getItem("refresh_token");
+//   const [clientId, setClientId] = useState(
+//     "xDtdNsu7yFQ6QKuRyToKsMgbjZkxo2Xn8qLX1LMF"
+//   );
+//   const [clientSecret, setClientSecret] = useState(
+//     "pGBkfeGYuF7W4Z2C73FH8dRyFnPuIowdJptruKV6VpBH79oaVRrGdIWXEWWmbyMGFB5mWHnTpIzrDhZSgJq2obrc1GVKuRZE6WOregecNXlUR6xLOsD1ejFSw6HVWOPV"
+//   );
+
+
+//   const refreshTokenAPI = useCallback(() => {
+
+//     if (!clientId || !clientSecret || !refreshToken || !getTime) {
+//       console.log("Missing required values or user is logged out. Cannot refresh token.");
+//       return;
+//     }
+     
+
+//     console.log("Token has expired, doing the refresh ");
+//     alert("Time is up , refreshing token")
     
-    console.log("Token has expired");
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+//     var myHeaders = new Headers();
+//     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    
+//     var urlencoded = new URLSearchParams();
 
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("grant_type", "refresh_token");
-    urlencoded.append("client_secret", clientSecret);
-    urlencoded.append("client_id", clientId);
-    urlencoded.append("refresh_token", refreshToken);
-    urlencoded.append("backend", "facebook");
+//     urlencoded.append("grant_type", "refresh_token");
+//     urlencoded.append("client_secret", clientSecret);
+//     urlencoded.append("client_id", clientId);
+//     urlencoded.append("refresh_token", refreshToken);
+//     urlencoded.append("backend", "facebook");
+    
+//     var requestOptions = {
+//       method: 'POST',
+//       headers: myHeaders,
+//       body: urlencoded,
+//       redirect: 'follow'
+//     };
+    
+//     fetch("/auth/token/", requestOptions)
+//     .then((response) => {
+//       const status = response.status;
+//       return response.json().then((result) => {
+//         return { status, result };
+//       });
+//     })
+//       .then(({ result, status })=> {
+//         if(status === 200){
+//           localStorage.setItem("bearer_token", result.access_token);
+//             localStorage.setItem("expiry_time", result.expires_in);
+//             localStorage.setItem("refresh_token", result.refresh_token);
+//         }
+//         console.log("acessToken", result)
+//         console.log("status", status)
+//       })
+//       .catch(error => console.log('error', error));
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: urlencoded,
-      redirect: "follow",
-    };
+//   }, [clientSecret, clientId, refreshToken, getTime]);
 
-    fetch("http://167.71.92.101/auth/token/", requestOptions)
-      .then((response) => {
-        const status = response.status;
-        return response.json().then((result) => {
-          return { status, result };
-        });
-      })
-      .then(({ result, status }) => {
-        console.log(result);
-        console.log("refresh statys", status);
-      })
 
-      .catch((error) => {
-        console.log("error", error);
-      });
-  };
+//   useEffect(() => {
+//     // Check if getTime has a valid value (not null or undefined)
+//     if (getTime && getTime !== null && getTime !== "") {
+//       const interval = setInterval(() => refreshTokenAPI(), getTime * 60000);
+//       intervalRef.current = interval;
+  
+//       return () => clearInterval(interval);
+//     }
 
-  function TokenRefreshTimer({ getTime, refreshTokenAPI }) {
-    useEffect(() => {
-      let timerId;
+//     return () => {};
+//   }, [refreshTokenAPI, getTime]);
+  
 
-      const refresh = () => {
-        refreshTokenAPI();
-        clearTimeout(timerId); // Clear the previous timer
-      };
-
-      // Calculate the initial time remaining
-      const currentTime = new Date().getTime();
-      const timeRemaining = getTime - currentTime;
-
-      // Set a timer to refresh the token when it's about to expire
-      if (timeRemaining > 0) {
-        timerId = setTimeout(refresh, timeRemaining);
-      }
-
-      return () => {
-        // Clear the timer when the component unmounts
-        clearTimeout(timerId);
-      };
-    }, [refreshTokenAPI, getTime]);
-
-    return null;
-  }
+//  clearInterval(intervalRef.current);
 
   return (
     <div className="App">
-      <TokenRefreshTimer getTime={getTime} refreshTokenAPI={refreshTokenAPI} />
+      {/* <TokenRefreshTimer getTime={getTime} refreshTokenAPI={refreshTokenAPI} /> */}
 
       <Routes>
         <Route path="/" element={<Login />} />
