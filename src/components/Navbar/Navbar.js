@@ -69,6 +69,7 @@ const NavBar = () => {
 
         localStorage.setItem("expiry_time", newExpiryTime);
         intervalRef.current = newExpiryTime;
+        localStorage.setItem("refresh_token", result.refresh_token);
 
         console.log("accessToken", result.access_token);
       })
@@ -218,7 +219,7 @@ const NavBar = () => {
               </ul>
             </div>
 
-            <div className="d-flex align-items-center justify-content-center m-3">
+            <div className="d-flex align-items-end justify-content-center m-3">
               <form className="d-flex" role="search">
                 <button
                   className="btn btn-primary"
